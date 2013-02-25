@@ -1,0 +1,6 @@
+<select multiple
+        ng-multiple="true"
+        ng-model="param.parse"
+        ng-options="field.name for field in displayCtrl.fields"
+        ng-change="updateApiCall()">
+</select>

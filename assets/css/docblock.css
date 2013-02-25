@@ -1,0 +1,95 @@
+[class*="div"] {
+    float: left;
+    margin-left: 20px;
+}
+.div3 {
+    width: 300px;
+}
+.div9 {
+    width: 300px;
+}
+div {
+    display: block;
+}
+input.search-query {
+    margin-bottom: 10px;
+}
+dt {
+	font-size: 16px;
+	border-bottom: 1px solid #ccc;
+	margin: 20px 0 10px;
+}
+dd {
+    margin-left: 0;
+}
+.btn-mini [class^="icon-"], .btn-mini [class*=" icon-"] {
+	vertical-align: text-bottom;
+	margin-right: 3px;	
+}
+body { 
+	font-size: 13px;
+}
+.header { 
+	display: block;
+	height: 45px; 
+	overflow: hidden;
+	border-bottom: 1px solid #ccc;
+	background: #ffffff; /* Old browsers */
+	background: -moz-linear-gradient(top,  #ffffff 20%, #e5e5e5 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(20%,#ffffff), color-stop(100%,#e5e5e5)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #ffffff 20%,#e5e5e5 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #ffffff 20%,#e5e5e5 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #ffffff 20%,#e5e5e5 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #ffffff 20%,#e5e5e5 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+}
+.header > .container { 
+	margin: 5px auto;
+}
+.header .span4 { 
+	text-align: right;
+}
+.header ul { 
+	list-style-type: none;
+	margin: 5px 0 0 0;
+	padding: 0;
+}
+.header ul li { 
+	display: inline-block;
+}
+.header li .btn-mini { 
+	vertical-align: top;
+}
+.header input.search-query { 
+	margin-top: 3px;
+}
+.breadcrumb .divider { 
+	float: none;
+	margin-left: 0;
+}
+.network-token .add-on, .network-id .add-on { 
+	width: 100px;
+	text-align: left;
+}
+.network-token .input-medium, .network-id .input-medium { 
+	width: 495px;
+}
+.btn-mini.sm, .pull-right.sm { 
+	font-size: 9px;
+	line-height: 14px;
+	vertical-align: top;
+}
+.params table th { 
+	text-align: left;
+}
+
+/* fix bootstrap */
+.btn-group > .btn-mini.btn:first-child {
+    border-radius: 3px;
+}
+.btn-group {
+	vertical-align: top;
+}
+.input-append *:nth-child(2) {
+    border-radius: 0;
+}

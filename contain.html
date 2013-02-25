@@ -1,0 +1,18 @@
+<dt ng-hide="hideContain()">Contain</dt>
+<dd ng-hide="hideContain()">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Fields</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="contain in displayCtrl.containList">
+                <td>{{ contain.containName }}</td>
+                <td>{{ contain.containModel}}</td>
+            </tr>
+        </tbody>
+    </table>
+</dd>

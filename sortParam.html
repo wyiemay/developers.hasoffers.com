@@ -1,0 +1,33 @@
+<ul class="unstyled">
+
+    <li ng-repeat="p in param.parse">
+        <div class="input-append">
+            <select class="input-medium"
+                    ng-model="p.selectField"
+                    ng-options="field.name for field in displayCtrl.fields"
+                    ng-change="updateApiCall()">
+            </select>
+
+            <select class="input-small"
+                    ng-model="p.selectValue"
+                    ng-options="direction for (key, direction) in param.type.directions"
+                    ng-change="updateApiCall()">
+            </select>
+
+            <button class="btn"
+                    type="button"
+                    ng-click="param.parse.splice($index, 1)">
+                <i class="icon-trash"></i>
+            </button>
+        </div>
+    <li>
+
+    <li>
+        <button class="btn"
+                type="button"
+                ng-click="addFilterField(param.parse)">
+            <i class="icon-plus"></i> Add
+        </button>
+    </li>
+
+</ul>

@@ -1,0 +1,29 @@
+<dt>
+    Params
+    <span class="pull-right sm">* Required</span>
+</dt>
+<dd class="params">
+    <table class="table-condensed table-hover">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Type</th>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="param in displayCtrl.params">
+                <td>
+                    <abbr title="Is Required">
+                    {{ displayRequired(param.isRequired) }}
+                    </abbr>
+                </td>
+                <td>{{ param.type }}</td>
+                <td>{{ param.name }}</td>
+                <td>{{ param.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+</dd>

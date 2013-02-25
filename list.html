@@ -1,0 +1,12 @@
+<input type="text"
+       class="search-query"
+       ng-model="searchQuery"
+       placeholder="Search">
+
+<ul class="unstyled">
+    <li ng-repeat="(index, controller) in controllers | filter:searchQuery">
+        <a href="#/controller/{{ controller.controllerName }}/method/{{ controller.methodName }}">
+        {{ controller.controllerName }}::{{ controller.methodName }}
+        </a>
+    </li>
+</ul>

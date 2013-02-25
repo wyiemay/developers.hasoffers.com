@@ -1,0 +1,60 @@
+<dt>API Builder:</dt>
+<dd>
+    <div class="input-prepend network-token">
+        <span class="add-on">
+            <abbr title="Is Required">NetworkToken</abbr>
+        </span>
+        <input type="text"
+               class="input-xlarge"
+               placeholder="NETaaaaBBBBcccc123456789"
+               ng-model="displayCtrl.networkToken"
+               ng-change="updateApiCall()">
+    </div>
+    <div class="input-prepend network-id">
+        <span class="add-on">
+            <abbr title="Is Required">NetworkId</abbr>
+        </span>
+        <input type="text"
+               class="input-large"
+               placeholder="demo"
+               ng-model="displayCtrl.networkId"
+               ng-change="updateApiCall()">
+    </div>
+
+    <table class="table table-bordered">
+        <tbody>
+            <tr ng-repeat="param in apiParams">
+                <td>
+                    <strong>{{ param.value.name }}</strong>
+                    <em>({{ param.value.type }})</em>
+                    <button class="btn btn-mini"
+                            type="button"
+                            ng-click="apiParams.splice($index, 1)">
+                        <i class="icon-trash"></i>
+                    </button>
+                </td>
+
+                <td ng-include="param.type.template">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</dd>
+
+<dt>API Call <span class="pull-right"><a class="btn btn-mini sm" href="#">Copy to Clipboard</a></span></dt>
+<dd>
+    <pre ng-bind="apiCall">
+    </pre>
+
+    <buttton class="btn btn-primary"
+             type="button"
+             ng-click="runApiCall()">
+        Run
+    </buttton>
+</dd>
+
+<dt ng-hide="hideApiResponse()">API Response</dt>
+<dd ng-hide="hideApiResponse()">
+    <pre ng-bind="apiResponse">
+    </pre>
+</dd>

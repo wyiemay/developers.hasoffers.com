@@ -1,0 +1,66 @@
+<!doctype html>
+<html ng-app="Docs">
+<head>
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/docblock.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"></script>
+    <script type="text/javascript" src="http://underscorejs.org/underscore-min.js"></script>
+    <script type="text/javascript" src="assets/js/docblock.js"></script>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header container-fluid">
+    <div class="container">
+        <div class="row-fluid">
+            <div class="span2">
+                <a href="http://www.hasoffers.com"><img class="has-logo" src="assets/img/HasOffers.png" width="100" height="35" /></a>
+            </div>
+            <div class="span6">
+                <ul>
+                    <li><a class="btn btn-mini" href="http://www.hasoffers.com"><i class="icon-home"></i>Home</a></li>
+                    <li><a class="btn btn-mini" href="http://www.hasoffers.com/tour"><i class="icon-hand-right"></i>Tour</a></li>
+                    <li><a class="btn btn-mini" href="http://www.hasoffers.com/pricing"><i class="icon-tag"></i>Pricing</a></li>
+                    <li><a class="btn btn-mini" href="http://www.hasoffers.com/blog"><i class="icon-comment"></i>Blog</a></li>
+                        <li><a class="btn btn-mini" href="http://support.hasoffers.com"><i class="icon-question-sign"></i>Support</a></li>
+                    <li>
+                            <div class="btn-group">
+                                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="icon-cog"></i>Documentation</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Current Documentation</a><li>
+                                    <li><a href="http://www.hasoffers.com/wiki/Category:API">Legacy Documentation</a><li>
+                                </ul>
+                            </div>
+                        </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Content -->
+<div class="content container">
+
+    <!-- Title -->
+    <div class="row-fluid">
+        <div class="span12">
+        </div>
+    </div>
+
+    <!-- Body -->
+    <div class="row-fluid">
+
+        <!-- Left Side -->
+        <div class="span4"
+             ng-include src="'list.html'">
+        </div>
+
+        <!-- Right Side -->
+        <div class="span8"
+             ng-view>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,6 @@
+<select multiple
+        ng-multiple="true"
+        ng-model="param.parse"
+        ng-options="contain.containName for contain in displayCtrl.containList"
+        ng-change="updateApiCall()">
+</select>
