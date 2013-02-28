@@ -1,6 +1,5 @@
-<select multiple
-        ng-multiple="true"
-        ng-model="param.parse"
+<select class="input-medium"
+        ng-model="param.parse.selectValue"
         ng-options="field.name for field in displayCtrl.fields"
         ng-change="updateApiCall()">
 </select>

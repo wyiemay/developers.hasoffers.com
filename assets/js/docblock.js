@@ -3,20 +3,17 @@
 angular.module('Docs', [])
     .config(function($routeProvider) {
 
-        $routeProvider.when(
-                '/',
-                {controller:  WelcomeCtrl,
-                 templateUrl: "welcome.html"}
+        $routeProvider.when('/',
+                            {controller:  WelcomeCtrl,
+                             templateUrl: "welcome.html"}
             )
-            .when(
-                "/controller/:controllerName",
-                {controller:  ControllerListCtrl,
-                 templateUrl: "controllerList.html"}
+            .when("/controller/:controllerName",
+                  {controller:  ControllerListCtrl,
+                   templateUrl: "controllerList.html"}
             )
-            .when(
-                "/controller/:controllerName/method/:methodName",
-                {controller:  ViewCtrl,
-                 templateUrl: "details.html"}
+            .when("/controller/:controllerName/method/:methodName",
+                  {controller:  ViewCtrl,
+                   templateUrl: "details.html"}
             )
             .otherwise({redirectTo: '/'});
     })
@@ -111,6 +108,9 @@ angular.module('Docs', [])
                     fields: {
                         template: "fieldsParam.html"
                     },
+                    field: {
+                        template: "fieldParam.html"
+                    },
                     contain: {
                         template: "containParam.html"
                     },
@@ -120,7 +120,7 @@ angular.module('Docs', [])
                 };
 
                 var apiParams = [];
-                angular.forEach(displayCtrl.params, function(param, key) {
+                angular.forEach(displayCtrl.params, function(param) {
 
                     var paramType = paramObjects.other;
                     if (paramObjects[param.name] != null) {
@@ -154,9 +154,9 @@ angular.module('Docs', [])
                 return result;
             }
         };
-});
+    });
 
-function WelcomeCtrl($scope) {
+function WelcomeCtrl() {
 }
 
 function ControllerListCtrl($scope,
@@ -173,10 +173,8 @@ function ViewCtrl($scope,
                   $http,
                   Util) {
 
-    $scope.displayCtrl = Util.findMethod(
-        $routeParams.controllerName,
-        $routeParams.methodName
-    );
+    $scope.displayCtrl = Util.findMethod($routeParams.controllerName,
+                                         $routeParams.methodName);
 
     if ($scope.displayCtrl != null) {
 
@@ -204,6 +202,10 @@ function ViewCtrl($scope,
             return ($scope.apiResponse == null);
         };
 
+        $scope.hideTrashButton = function(param) {
+            return (param.value.isRequired);
+        };
+
         $scope.addFilterField = function(addTo) {
             addTo.push({});
         };
@@ -227,35 +229,38 @@ function ViewCtrl($scope,
                 "&Method=" + $scope.displayCtrl.methodName;
 
             if ($scope.displayCtrl.networkToken != null) {
-                $scope.apiCall = $scope.apiCall + "&NetworkToken=" + $scope.displayCtrl.networkToken;
+                $scope.apiCall += "&NetworkToken=" + $scope.displayCtrl.networkToken;
             }
 
             if ($scope.displayCtrl.networkId != null) {
-                $scope.apiCall = $scope.apiCall + "&NetworkId=" + $scope.displayCtrl.networkId;
+                $scope.apiCall += "&NetworkId=" + $scope.displayCtrl.networkId;
             }
 
-            angular.forEach($scope.apiParams, function(param, key) {
+            angular.forEach($scope.apiParams, function(param) {
 
                 var fieldType   = param.value.name;
                 var parseValues = param.parse;
 
                 switch (fieldType) {
-
                     case "filters":
+                        // Default nesting to "AND"
                         var nesting = "";
                         if (param.nesting !== "AND") {
                             nesting = "[OR]";
                         }
-                        angular.forEach(parseValues, function(value, key) {
 
-                            var operator = "";
+                        angular.forEach(parseValues, function(value) {
 
-                            if (value.selectOperator !== "") {
+                            // Default operator is equals
+                            var operator = "[]";
+                            if (value.selectOperator != null) {
                                 operator = "[" + value.selectOperator + "]";
                             }
 
-                            if (value.selectValue != null) {
-                                $scope.apiCall = $scope.apiCall + "&" + fieldType +
+                            if (value.selectField != null &&
+                                value.selectValue != null) {
+
+                                $scope.apiCall += "&" + fieldType +
                                     nesting + "[" + value.selectField.name + "]" +
                                     operator + "=" + value.selectValue;
                             }
@@ -264,38 +269,48 @@ function ViewCtrl($scope,
 
                     case "sort":
                     case "data":
-                        angular.forEach(parseValues, function(value, key) {
+                        angular.forEach(parseValues, function(value) {
 
-                            if (value.selecValue != null) {
-                                $scope.apiCall = $scope.apiCall + "&" + fieldType +
-                                    "[" + value.selectField + "]" +
+                            if (value.selectField != null &&
+                                value.selectValue != null) {
+
+                                $scope.apiCall += "&" + fieldType +
+                                    "[" + value.selectField.name + "]" +
                                     "=" + value.selectValue;
                             }
                         });
                         break;
 
                     case "fields":
-                        angular.forEach(parseValues, function(value, key) {
+                        angular.forEach(parseValues, function(value) {
 
                             if (value.name != null) {
-                                $scope.apiCall = $scope.apiCall + "&" + fieldType +
+                                $scope.apiCall += "&" + fieldType +
                                     "[]=" + value.name;
                             }
                         });
                         break;
 
+                    case "field":
+                        if (parseValues.selectValue.name != null) {
+                            $scope.apiCall += "&" + fieldType +
+                                "=" + parseValues.selectValue.name;
+                        }
+                        break;
+
                     case "contain":
-                        angular.forEach(parseValues, function(value, key) {
+                        angular.forEach(parseValues, function(value) {
 
                             if (value.containName != null) {
-                                $scope.apiCall = $scope.apiCall + "&" + fieldType +
+                                $scope.apiCall += "&" + fieldType +
                                     "[]=" + value.containName;
                             }
                         });
                         break;
+
                    default:
                         if (parseValues.selectValue != null) {
-                            $scope.apiCall = $scope.apiCall + "&" + fieldType +
+                            $scope.apiCall += "&" + fieldType +
                                 "=" + parseValues.selectValue;
                         }
                         break;
