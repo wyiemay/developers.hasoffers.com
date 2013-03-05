@@ -19,7 +19,7 @@ angular.module('Docs', [])
     })
     .run(['$rootScope', '$http', function($rootScope, $http) {
 
-        $http.get('source/externalController.json')
+        $http.get('source/External_doc.json')
             .success(function(data) {
 
             if (data != null) {
@@ -27,7 +27,7 @@ angular.module('Docs', [])
             }
         });
 
-        $http.get('source/model.json')
+        $http.get('source/Model_doc.json')
             .success(function(data) {
 
             if (data != null) {
