@@ -24,14 +24,14 @@ dd {
 }
 .btn-mini [class^="icon-"], .btn-mini [class*=" icon-"] {
 	vertical-align: text-bottom;
-	margin-right: 3px;	
+	margin-right: 3px;
 }
-body { 
+body {
 	font-size: 13px;
 }
-.header { 
+.header {
 	display: block;
-	height: 45px; 
+	height: 45px;
 	overflow: hidden;
 	border-bottom: 1px solid #ccc;
 	background: #ffffff; /* Old browsers */
@@ -43,43 +43,43 @@ body {
 	background: linear-gradient(to bottom,  #ffffff 20%,#e5e5e5 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
 }
-.header > .container { 
+.header > .container {
 	margin: 5px auto;
 }
-.header .span4 { 
+.header .span4 {
 	text-align: right;
 }
-.header ul { 
+.header ul {
 	list-style-type: none;
 	margin: 5px 0 0 0;
 	padding: 0;
 }
-.header ul li { 
+.header ul li {
 	display: inline-block;
 }
-.header li .btn-mini { 
+.header li .btn-mini {
 	vertical-align: top;
 }
-.header input.search-query { 
+.header input.search-query {
 	margin-top: 3px;
 }
-.breadcrumb .divider { 
+.breadcrumb .divider {
 	float: none;
 	margin-left: 0;
 }
-.network-token .add-on, .network-id .add-on { 
+.network-token .add-on, .network-id .add-on {
 	width: 100px;
 	text-align: left;
 }
-.network-token .input-medium, .network-id .input-medium { 
+.network-token .input-medium, .network-id .input-medium {
 	width: 495px;
 }
-.btn-mini.sm, .pull-right.sm { 
+.btn-mini.sm, .pull-right.sm {
 	font-size: 9px;
 	line-height: 14px;
 	vertical-align: top;
 }
-.params table th { 
+.params table th {
 	text-align: left;
 }
 
@@ -92,4 +92,11 @@ body {
 }
 .input-append *:nth-child(2) {
     border-radius: 0;
+}
+.sidebar-nav-fixed {
+    background-position:fixed;
+    position:absolute;
+    top:0px;
+    right:0px;
+    border:0px;
 }
