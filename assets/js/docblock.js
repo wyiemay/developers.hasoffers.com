@@ -181,9 +181,10 @@ function ViewCtrl($scope,
         $scope.displayCtrl = Util.bindFields($scope.displayCtrl);
         $scope.apiParams   = Util.buildApiConstructor($scope.displayCtrl);
 
-        $scope.apiCall = "http://api.hasoffers.com/Api/json" +
-            "?Target=" + $scope.displayCtrl.controllerName +
-            "&Method=" + $scope.displayCtrl.methodName;
+        $scope.apiCall = "http://api.hasoffers.com/v3/" +
+            $scope.displayCtrl.controllerName +
+            ".json?Method=" + $scope.displayCtrl.methodName;
+
 
         $scope.displayRequired = function(isRequired) {
 
@@ -224,9 +225,9 @@ function ViewCtrl($scope,
 
         $scope.updateApiCall = function() {
 
-            $scope.apiCall = "http://api.hasoffers.com/Api/json" +
-                "?Target=" + $scope.displayCtrl.controllerName +
-                "&Method=" + $scope.displayCtrl.methodName;
+            $scope.apiCall = "http://api.hasoffers.com/v3/" +
+                $scope.displayCtrl.controllerName +
+                ".json?Method=" + $scope.displayCtrl.methodName;
 
             if ($scope.displayCtrl.networkToken != null) {
                 $scope.apiCall += "&NetworkToken=" + $scope.displayCtrl.networkToken;
