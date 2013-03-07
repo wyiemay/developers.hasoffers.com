@@ -10,4 +10,4 @@ Just fork the repo and run it locally. Simple :)
 [angularjs]: http://angularjs.org/
 
 ## TODO
-Have a long list. Will add them later.
+See the issue list (https://github.com/Adapp/developers.hasoffers.com/issues)
