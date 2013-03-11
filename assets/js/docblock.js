@@ -195,10 +195,6 @@ function ViewCtrl($scope,
             return ($scope.displayCtrl.containList == null);
         };
 
-        $scope.hideApiResponse = function() {
-            return ($scope.apiResponse == null);
-        };
-
         $scope.hideTrashButton = function(param) {
             return (param.value.isRequired);
         };
@@ -208,6 +204,15 @@ function ViewCtrl($scope,
         };
 
         $scope.runApiCall = function() {
+            if ($scope.displayCtrl.networkToken == null ) {
+                $scope.apiResponse = 'Please provide Network Token';
+                return;
+            }
+
+            if ($scope.displayCtrl.networkId == null ) {
+                $scope.apiResponse = 'Please provide Network Id';
+                return;
+            }
 
             $http.jsonp($scope.apiCall.replace("json", "jsonp") +
                         "&callback=JSON_CALLBACK")
