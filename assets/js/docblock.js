@@ -1,163 +1,159 @@
 "use strict";
 
-angular.module('Docs', [])
-    .config(function($routeProvider) {
+var docModule = angular.module('Docs', []);
 
-        $routeProvider.when('/',
-                            {controller:  WelcomeCtrl,
-                             templateUrl: "welcome.html"}
-            )
-            .when("/controller/:controllerName",
-                  {controller:  ControllerListCtrl,
-                   templateUrl: "controllerList.html"}
-            )
-            .when("/controller/:controllerName/method/:methodName",
-                  {controller:  ViewCtrl,
-                   templateUrl: "details.html"}
-            )
-            .otherwise({redirectTo: '/'});
-    })
-    .run(['$rootScope', '$http', function($rootScope, $http) {
+docModule.config(function($routeProvider) {
+    $routeProvider.when('/',
+                        {templateUrl: "welcome.html"}
+        )
+        .when("/controller/:controllerName",
+              {controller:  ControllerListCtrl,
+               templateUrl: "controllerList.html"}
+        )
+        .when("/controller/:controllerName/method/:methodName",
+              {controller:  ViewCtrl,
+               templateUrl: "details.html"}
+        )
+        .otherwise({redirectTo: '/'});
+});
 
-        $http.get('docSource/External_doc.json')
-            .success(function(data) {
+docModule.run(['$rootScope', '$http', function($rootScope, $http) {
+    $http.get('docSource/External_doc.json')
+        .success(function(data) {
 
-            if (data != null) {
-                $rootScope.controllers = data;
-            }
-        });
-
-        $http.get('docSource/Model_doc.json')
-            .success(function(data) {
-
-            if (data != null) {
-                $rootScope.models = data;
-            }
-        });
-    }])
-    .factory('Util', function($filter, $rootScope) {
-
-        // Public:
-        return {
-
-            findMethod: function(controllerName, methodName) {
-
-                var searchFilters = {
-                    controllerName: controllerName,
-                    methodName:     methodName
-                };
-
-                var result = $rootScope.controllers.filter(function(value) {
-
-                    return (value.controllerName === this.controllerName &&
-                            value.methodName     === this.methodName);
-                }, searchFilters);
-
-                if (result.length === 0) {
-                    return null;
-                }
-
-                return result[0];
-            },
-            bindFields: function(displayCtrl) {
-
-                 if (displayCtrl.linkModel != null) {
-
-                     var searchFilter = {
-                         namespace: displayCtrl.linkModel
-                     };
-
-                     var results = $rootScope.models.filter(function(value) {
-                         return (value.namespace === this.namespace);
-                     }, searchFilter);
-
-                     if (results.length !== 0) {
-                         displayCtrl.fields = results[0].fields;
-                     }
-                 }
-
-                 return displayCtrl;
-            },
-            buildApiConstructor: function(displayCtrl) {
-
-                var paramObjects = {
-                    filters: {
-                        template: "filtersParam.html",
-                        nesting: {
-                            AND: "AND",
-                            OR:  "OR"
-                        },
-                        operators: [
-                            {name: "=",     value: ""},
-                            {name: "!=",    value: "NOT_EQUAL_TO"},
-                            {name: "<",     value: "LESS_THAN"},
-                            {name: "<=",    value: "LESS_THAN_OR_EQUAL_TO"},
-                            {name: ">",     value: "GREATER_THAN"},
-                            {name: ">=",    value: "GREATER_THAN_OR_EQUAL_TO"},
-                            {name: "like",  value: "LIKE"},
-                            {name: "rlike", value: "RLIKE"}
-                        ]
-                    },
-                    data: {
-                        template: "dataParam.html"
-                    },
-                    sort: {
-                        template:   "sortParam.html",
-                        directions: ['ASC', 'DESC']
-                    },
-                    fields: {
-                        template: "fieldsParam.html"
-                    },
-                    field: {
-                        template: "fieldParam.html"
-                    },
-                    contain: {
-                        template: "containParam.html"
-                    },
-                    other: {
-                        template: "otherParam.html"
-                    }
-                };
-
-                var apiParams = [];
-                angular.forEach(displayCtrl.params, function(param) {
-
-                    var paramType = paramObjects.other;
-                    if (paramObjects[param.name] != null) {
-                        paramType = paramObjects[param.name];
-                    }
-
-                    apiParams.push({
-                        value: param,
-                        type:  paramType,
-                        parse: []
-                    });
-                });
-
-                return apiParams;
-            },
-            findMethodsByController: function(controller) {
-
-                var searchFilters = {
-                    controllerName: controller
-                };
-
-                var result = $rootScope.controllers.filter(function(value) {
-
-                    return (value.controllerName === this.controllerName);
-                }, searchFilters);
-
-                if (result.length === 0) {
-                    return null;
-                }
-
-                return result;
-            }
-        };
+        if (data != null) {
+            $rootScope.controllers = data;
+        }
     });
 
-function WelcomeCtrl() {
-}
+    $http.get('docSource/Model_doc.json')
+        .success(function(data) {
+
+        if (data != null) {
+            $rootScope.models = data;
+        }
+    });
+}]);
+
+docModule.factory('Util', function($filter, $rootScope) {
+    // Public methods:
+    return {
+
+        findMethod: function(controllerName, methodName) {
+
+            var searchFilters = {
+                controllerName: controllerName,
+                methodName:     methodName
+            };
+
+            var result = $rootScope.controllers.filter(function(value) {
+
+                return (value.controllerName === this.controllerName &&
+                        value.methodName     === this.methodName);
+            }, searchFilters);
+
+            if (result.length === 0) {
+                return null;
+            }
+
+            return result[0];
+        },
+        bindFields: function(displayCtrl) {
+
+             if (displayCtrl.linkModel != null) {
+
+                 var searchFilter = {
+                     namespace: displayCtrl.linkModel
+                 };
+
+                 var results = $rootScope.models.filter(function(value) {
+                     return (value.namespace === this.namespace);
+                 }, searchFilter);
+
+                 if (results.length !== 0) {
+                     displayCtrl.fields = results[0].fields;
+                 }
+             }
+
+             return displayCtrl;
+        },
+        buildApiConstructor: function(displayCtrl) {
+
+            var paramObjects = {
+                filters: {
+                    template: "filtersParam.html",
+                    nesting: {
+                        AND: "AND",
+                        OR:  "OR"
+                    },
+                    operators: [
+                        {name: "=",     value: ""},
+                        {name: "!=",    value: "NOT_EQUAL_TO"},
+                        {name: "<",     value: "LESS_THAN"},
+                        {name: "<=",    value: "LESS_THAN_OR_EQUAL_TO"},
+                        {name: ">",     value: "GREATER_THAN"},
+                        {name: ">=",    value: "GREATER_THAN_OR_EQUAL_TO"},
+                        {name: "like",  value: "LIKE"},
+                        {name: "rlike", value: "RLIKE"}
+                    ]
+                },
+                data: {
+                    template: "dataParam.html"
+                },
+                sort: {
+                    template:   "sortParam.html",
+                    directions: ['ASC', 'DESC']
+                },
+                fields: {
+                    template: "fieldsParam.html"
+                },
+                field: {
+                    template: "fieldParam.html"
+                },
+                contain: {
+                    template: "containParam.html"
+                },
+                other: {
+                    template: "otherParam.html"
+                }
+            };
+
+            var apiParams = [];
+            angular.forEach(displayCtrl.params, function(param) {
+
+                var paramType = paramObjects.other;
+                if (paramObjects[param.name] != null) {
+                    paramType = paramObjects[param.name];
+                }
+
+                apiParams.push({
+                    value: param,
+                    type:  paramType,
+                    parse: []
+                });
+            });
+
+            return apiParams;
+        },
+        findMethodsByController: function(controller) {
+
+            var searchFilters = {
+                controllerName: controller
+            };
+
+            var result = $rootScope.controllers.filter(function(value) {
+
+                return (value.controllerName === this.controllerName);
+            }, searchFilters);
+
+            if (result.length === 0) {
+                return null;
+            }
+
+            return result;
+        }
+    };
+});
 
 function ControllerListCtrl($scope,
                             $routeParams,
