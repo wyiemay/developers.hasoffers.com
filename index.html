@@ -80,7 +80,7 @@
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 
     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-    dsq.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + '.disqus.com/embed.js';
+    dsq.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + disqus_shortname + '.disqus.com/embed.js';
 
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     var d = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(dsq, d);
