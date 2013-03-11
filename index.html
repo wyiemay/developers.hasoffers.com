@@ -72,22 +72,19 @@
   _gaq.push(['_setAccount', 'UA-39105655-1']);
   _gaq.push(['_trackPageview']);
 
+  // disqus shortname
+  var disqus_shortname = 'hasoffersdeceloper';
+
   (function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + disqus_shortname + '.disqus.com/embed.js';
+
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    var d = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(dsq, d);
   })();
-
-</script>
-
-<script type="text/javascript">
-    var disqus_shortname = 'hasoffersdeceloper';
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
 </script>
 </body>
 </html>
