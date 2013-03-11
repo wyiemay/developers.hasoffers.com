@@ -83,7 +83,7 @@
     dsq.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + '.disqus.com/embed.js';
 
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    var d = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(dsq, s);
   })();
 </script>
 </body>
