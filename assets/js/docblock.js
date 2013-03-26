@@ -164,6 +164,20 @@ function ControllerListCtrl($scope,
     );
 }
 
+function DisqusController($scope, $routeParams){
+   var identifier = $routeParams.controllerName + '::' + $routeParams.methodName;
+   var url = document.location.origin + '/#!' + identifier;
+
+   // reset the disqus comments for the current page
+   DISQUS.reset({
+     reload: true,
+     config: function () {
+       this.page.identifier = identifier;
+       this.page.url = url;
+     }
+   });
+}
+
 function ViewCtrl($scope,
                   $routeParams,
                   $http,
