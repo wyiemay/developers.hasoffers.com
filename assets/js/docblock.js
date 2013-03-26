@@ -164,7 +164,7 @@ function ControllerListCtrl($scope,
     );
 }
 
-function DisqusController($scope, $routeParams, $http){
+function DisqusController($scope, $routeParams){
    var identifier = $routeParams.controllerName + '::' + $routeParams.methodName;
    var url = document.location.origin + '/#!' + identifier;
 
