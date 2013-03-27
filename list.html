@@ -3,10 +3,12 @@
        ng-model="searchQuery"
        placeholder="Search">
 
-<ul class="unstyled">
-    <li ng-repeat="(index, controller) in controllers | filter:searchQuery">
-        <a href="#/controller/{{ controller.controllerName }}/method/{{ controller.methodName }}">
-        {{ controller.controllerName }}::{{ controller.methodName }}
-        </a>
-    </li>
-</ul>
+<div ng-controller="SideBarController">
+    <accordion class="side-bar" close-others="false">
+        <accordion-group heading="{{controller.controllerName}}" ng-repeat="controller in ctrlrs | hasMethodFilter: searchQuery">
+            <p class="in" ng-repeat="method in controller.methods | filter: searchQuery">
+                <a href="#/controller/{{ controller.controllerName }}/method/{{ method }}">{{ method }}</a>
+            </p>
+        </accordion-group>
+    </accordion>
+</div>
