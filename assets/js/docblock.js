@@ -206,10 +206,9 @@ docModule.filter('hasMethodFilter', [function(){
 
         // filter controllers which don't have a method matching the partial
         var newList = controllers.filter(function(controller) {
-           // turn the array into a string
-           var arrayString = controller.methods.join(' ');
-           //search the string for the method name
-           return arrayString.match(methodNamePartial);
+           // turn the array into a string and check if there is any
+           // partial instance of the method name in the string of method names
+           return controller.methods.join(' ').match(methodNamePartial);
         });
 
         return newList;
