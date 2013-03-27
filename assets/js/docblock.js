@@ -208,7 +208,7 @@ docModule.filter('hasMethodFilter', [function(){
         var newList = controllers.filter(function(controller) {
            // turn the array into a string and check if there is any
            // partial instance of the method name in the string of method names
-           return controller.methods.join(' ').match(methodNamePartial);
+           return controller.methods.join(' ').toLowerCase().match(methodNamePartial.toLowerCase());
         });
 
         return newList;
