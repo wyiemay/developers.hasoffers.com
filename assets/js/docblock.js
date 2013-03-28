@@ -221,7 +221,11 @@ docModule.filter('hasMethodFilter', [function(){
  */
 function SideBarController($scope, Util) {
     $scope.ctrlrs = Util.aggregateByController($scope.controllers);
-
+    $scope.searchQuery = "";
+    $scope.isFiltering = false;
+    $scope.$watch('searchQuery', function(){
+        $scope.isFiltering = $scope.searchQuery.length === 0 ? false : true;
+    });
 }
 
 function DisqusController($scope, $routeParams){
