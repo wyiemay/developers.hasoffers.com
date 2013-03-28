@@ -1,12 +1,27 @@
-<input type="text"
+<div ng-controller="SideBarController">
+    <input type="text"
        class="search-query"
        ng-model="searchQuery"
        placeholder="Search">
-
-<ul class="unstyled">
-    <li ng-repeat="(index, controller) in controllers | filter:searchQuery">
-        <a href="#/controller/{{ controller.controllerName }}/method/{{ controller.methodName }}">
-        {{ controller.controllerName }}::{{ controller.methodName }}
-        </a>
-    </li>
-</ul>
+    <accordion class="side-bar" close-others="false" ng-hide="isFiltering">
+        <accordion-group isOpen="false" heading="{{controller.controllerName}} ({{controller.methods.length}})" ng-repeat="controller in ctrlrs | hasMethodFilter: searchQuery">
+            <p ng-repeat="method in controller.methods | filter: searchQuery">
+                <a href="#/controller/{{ controller.controllerName }}/method/{{ method }}">{{ method }}</a>
+            </p>
+        </accordion-group>
+    </accordion>
+    <div class="side-bar">
+        <ul ng-show="isFiltering" ng-repeat="controller in ctrlrs | hasMethodFilter: searchQuery">
+            <li class="heading"  isOpen="false" >
+                <a>- {{controller.controllerName}} ({{(controller.methods | filter: searchQuery).length}})</a>
+            </li>
+            <li class="body">
+                <div>
+                    <p ng-repeat="method in controller.methods | filter: searchQuery">
+                        <a href="#/controller/{{ controller.controllerName }}/method/{{ method }}">{{ method }}</a>
+                    </p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

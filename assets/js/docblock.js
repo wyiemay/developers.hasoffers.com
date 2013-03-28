@@ -1,6 +1,6 @@
 "use strict";
 
-var docModule = angular.module('Docs', []);
+var docModule = angular.module('Docs', ['ui.bootstrap']);
 
 docModule.config(function($routeProvider) {
     $routeProvider.when('/',
@@ -151,6 +151,37 @@ docModule.factory('Util', function($filter, $rootScope) {
             }
 
             return result;
+        },
+        /**
+         * morphs the flat list of controllers into a structured list of [{controllerName to methodNames},...]
+         * @param array - list of controllers
+         * @return array - see description
+         */
+        aggregateByController: function(controllers){
+            var ctrlrs = {},
+                ctrlrsArray = [],
+                i = 0;
+
+            for (i; i < controllers.length; i++){
+                var controller = controllers[i];
+
+                if (!ctrlrs[controller.controllerName]){
+                    ctrlrs[controller.controllerName] = [controller.methodName];
+                }
+                else
+                {
+                    ctrlrs[controller.controllerName].push(controller.methodName);
+                }
+            }
+
+            for (var controllerName in ctrlrs)
+            {
+                if (ctrlrs.hasOwnProperty(controllerName)){
+                    ctrlrsArray.push({controllerName: controllerName, methods: ctrlrs[controllerName]});
+                }
+            }
+
+            return ctrlrsArray;
         }
     };
 });
@@ -162,6 +193,39 @@ function ControllerListCtrl($scope,
     $scope.controllerList = Util.findMethodsByController(
         $routeParams.controllerName
     );
+}
+
+/**
+ * filters controllers based on whether or not the partial matches a method name in the controller
+ */
+docModule.filter('hasMethodFilter', [function(){
+    return function(controllers, methodNamePartial){
+        if (methodNamePartial === '' || methodNamePartial === undefined) {
+            return controllers;
+        }
+
+        // filter controllers which don't have a method matching the partial
+        var newList = controllers.filter(function(controller) {
+           // turn the array into a string and check if there is any
+           // partial instance of the method name in the string of method names
+           return controller.methods.join(' ').toLowerCase().match(methodNamePartial.toLowerCase());
+        });
+
+        return newList;
+    };
+
+}]);
+
+/**
+ * Controller for a list of sidebar with controllers and methods
+ */
+function SideBarController($scope, Util) {
+    $scope.ctrlrs = Util.aggregateByController($scope.controllers);
+    $scope.searchQuery = "";
+    $scope.isFiltering = false;
+    $scope.$watch('searchQuery', function(){
+        $scope.isFiltering = $scope.searchQuery.length === 0 ? false : true;
+    });
 }
 
 function DisqusController($scope, $routeParams){

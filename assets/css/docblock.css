@@ -100,3 +100,25 @@ body {
     right:0px;
     border:0px;
 }
+
+.side-bar .heading a
+{
+    font-weight:bold;
+    color:#333;
+    text-decoration:none;
+    cursor: pointer;
+}
+
+.side-bar ul
+{
+    list-style-type: none;
+    margin-left:0;
+}
+.side-bar ul li.body
+{
+    margin-left: 10px;
+}
+.side-bar ul li.heading
+{
+    margin-bottom:5px;
+}
