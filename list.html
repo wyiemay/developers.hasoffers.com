@@ -1,12 +1,12 @@
-<input type="text"
+<div ng-controller="SideBarController">
+    <input type="text"
        class="search-query"
        ng-model="searchQuery"
+       ng-change="update()"
        placeholder="Search">
-
-<div ng-controller="SideBarController">
     <accordion class="side-bar" close-others="false">
-        <accordion-group heading="{{controller.controllerName}}" ng-repeat="controller in ctrlrs | hasMethodFilter: searchQuery">
-            <p class="in" ng-repeat="method in controller.methods | filter: searchQuery">
+        <accordion-group isOpen="false" heading="{{controller.controllerName}} ({{controller.methods.length}})" ng-repeat="controller in ctrlrs | hasMethodFilter: searchQuery">
+            <p ng-repeat="method in controller.methods | filter: searchQuery">
                 <a href="#/controller/{{ controller.controllerName }}/method/{{ method }}">{{ method }}</a>
             </p>
         </accordion-group>
