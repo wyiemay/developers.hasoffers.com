@@ -1,9 +1,9 @@
 <ul>
     <li class="heading">
-        <a ng-click="isOpen = !isOpen" ng-hide="isOpen" accordion-transclude="heading">- {{heading}}</a>
-        <a ng-click="isOpen = !isOpen" ng-show="isOpen" accordion-transclude="heading">+ {{heading}}</a>
+        <a ng-click="isOpen = !isOpen" ng-hide="isOpen" accordion-transclude="heading">+ {{heading}}</a>
+        <a ng-click="isOpen = !isOpen" ng-show="isOpen" accordion-transclude="heading">- {{heading}}</a>
     </li>
-    <li class="body" collapse="isOpen">
+    <li class="body" collapse="!isOpen">
         <div ng-transclude></div>
     </li>
 </ul>
