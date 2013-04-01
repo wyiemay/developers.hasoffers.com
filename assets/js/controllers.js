@@ -72,6 +72,7 @@ function MethodViewCtrl($scope,
         } // display ctrl not null
 
       /**
+       * displayRequired
        * @param bool - is required
        * @return string
        */
@@ -80,6 +81,7 @@ function MethodViewCtrl($scope,
       };
 
       /**
+       * hideContain
        * @return bool - whether there is a contains list
        */
       $scope.hideContain = function() {
@@ -87,6 +89,7 @@ function MethodViewCtrl($scope,
       };
 
       /**
+       * hideTrashButton
        * @param object - param to check
        * @return bool - whether or not to show the trash button for this parameter
        */
@@ -95,6 +98,7 @@ function MethodViewCtrl($scope,
       };
 
       /**
+       * addFilterField
        * @param array - reference array to modify
        * @return void
        */
@@ -103,6 +107,7 @@ function MethodViewCtrl($scope,
       };
 
       /**
+       * runApiCall
        * runs the api call
        * @return void
        */
@@ -128,6 +133,7 @@ function MethodViewCtrl($scope,
       };
 
       /**
+       * updateApiCall
        * constructs a string representation of the api call
        */
       $scope.updateApiCall = function() {

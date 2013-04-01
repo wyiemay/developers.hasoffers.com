@@ -27,6 +27,7 @@ docModule.factory('Util', function($filter, $rootScope,$http) {
     // Public methods:
     return {
         /**
+         * getExternalDoc
          * gets the documentation for external public facing controllers/methods
          * @return promise
          */
@@ -34,12 +35,14 @@ docModule.factory('Util', function($filter, $rootScope,$http) {
             return $http.get('docSource/External_doc.json');
         },
         /**
+         * getModelDoc
          * gets the documentation for the Model
          */
         getModelDoc: function(){
             return $http.get('docSource/Model_doc.json');
         },
         /**
+         * findMethod
          * @param controllers - list of controllers to search
          * @param controllerName - controller name to search by
          */
@@ -62,6 +65,7 @@ docModule.factory('Util', function($filter, $rootScope,$http) {
             return result[0];
         },
         /**
+         * bindFields
          * binds fields to be used with the method to the method object
          * @param array - model documentation to extract from
          * @param json  - method data to bind fields to
@@ -86,6 +90,7 @@ docModule.factory('Util', function($filter, $rootScope,$http) {
              return displayCtrl;
         },
         /**
+         * buildApiConstructor
          * @json - method object
          */
         buildApiConstructor: function(displayCtrl) {
@@ -147,6 +152,7 @@ docModule.factory('Util', function($filter, $rootScope,$http) {
             return apiParams;
         },
         /**
+         * findMethodsByController
          * @param array - external docs to search in
          * @param string
          */
@@ -167,6 +173,7 @@ docModule.factory('Util', function($filter, $rootScope,$http) {
             return result;
         },
         /**
+         * aggregateByController
          * morphs the flat list of controllers into a structured list of [{controllerName to methodNames},...]
          * @param array - list of controllers
          * @return array - see description
@@ -201,6 +208,7 @@ docModule.factory('Util', function($filter, $rootScope,$http) {
 });
 
 /**
+ * hasMethodFilter
  * filters controllers based on whether or not the partial matches a method name in the controller
  */
 docModule.filter('hasMethodFilter', [function(){
