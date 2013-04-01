@@ -31,15 +31,13 @@ docModule.factory('Util', function($filter, $rootScope,$http) {
          * @return promise
          */
         getExternalDoc: function(){
-            var promise = $http.get('docSource/External_doc.json');
-            return promise;
+            return $http.get('docSource/External_doc.json');
         },
         /**
          * gets the documentation for the Model
          */
         getModelDoc: function(){
-            var promise = $http.get('docSource/Model_doc.json');
-            return promise;
+            return $http.get('docSource/Model_doc.json');
         },
         /**
          * @param controllers - list of controllers to search
