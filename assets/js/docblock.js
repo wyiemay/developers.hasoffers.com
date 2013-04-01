@@ -3,6 +3,9 @@
 var docModule = angular.module('Docs', ['ui.bootstrap']);
 
 docModule.config(function($routeProvider) {
+    /**
+     * Routes
+     */
     $routeProvider.when('/',
                         {templateUrl: "welcome.html"}
         )
@@ -11,43 +14,45 @@ docModule.config(function($routeProvider) {
                templateUrl: "controllerList.html"}
         )
         .when("/controller/:controllerName/method/:methodName",
-              {controller:  ViewCtrl,
+              {controller:  MethodViewCtrl,
                templateUrl: "details.html"}
         )
         .otherwise({redirectTo: '/'});
 });
 
-docModule.run(['$rootScope', '$http', function($rootScope, $http) {
-    $http.get('docSource/External_doc.json')
-        .success(function(data) {
-
-        if (data != null) {
-            $rootScope.controllers = data;
-        }
-    });
-
-    $http.get('docSource/Model_doc.json')
-        .success(function(data) {
-
-        if (data != null) {
-            $rootScope.models = data;
-        }
-    });
-}]);
-
-docModule.factory('Util', function($filter, $rootScope) {
+/**
+ * Utility library
+ */
+docModule.factory('Util', function($filter, $rootScope,$http) {
     // Public methods:
     return {
-
-        findMethod: function(controllerName, methodName) {
+        /**
+         * gets the documentation for external public facing controllers/methods
+         * @return promise
+         */
+        getExternalDoc: function(){
+            var promise = $http.get('docSource/External_doc.json');
+            return promise;
+        },
+        /**
+         * gets the documentation for the Model
+         */
+        getModelDoc: function(){
+            var promise = $http.get('docSource/Model_doc.json');
+            return promise;
+        },
+        /**
+         * @param controllers - list of controllers to search
+         * @param controllerName - controller name to search by
+         */
+        findMethod: function(controllers,controllerName, methodName) {
 
             var searchFilters = {
                 controllerName: controllerName,
                 methodName:     methodName
             };
 
-            var result = $rootScope.controllers.filter(function(value) {
-
+            var result = controllers.filter(function(value) {
                 return (value.controllerName === this.controllerName &&
                         value.methodName     === this.methodName);
             }, searchFilters);
@@ -58,15 +63,20 @@ docModule.factory('Util', function($filter, $rootScope) {
 
             return result[0];
         },
-        bindFields: function(displayCtrl) {
-
+        /**
+         * binds fields to be used with the method to the method object
+         * @param array - model documentation to extract from
+         * @param json  - method data to bind fields to
+         * @return json - method with binded fields
+         */
+        bindFields: function(models,displayCtrl) {
              if (displayCtrl.linkModel != null) {
 
                  var searchFilter = {
                      namespace: displayCtrl.linkModel
                  };
 
-                 var results = $rootScope.models.filter(function(value) {
+                 var results = models.filter(function(value) {
                      return (value.namespace === this.namespace);
                  }, searchFilter);
 
@@ -77,6 +87,9 @@ docModule.factory('Util', function($filter, $rootScope) {
 
              return displayCtrl;
         },
+        /**
+         * @json - method object
+         */
         buildApiConstructor: function(displayCtrl) {
 
             var paramObjects = {
@@ -135,14 +148,17 @@ docModule.factory('Util', function($filter, $rootScope) {
 
             return apiParams;
         },
-        findMethodsByController: function(controller) {
+        /**
+         * @param array - external docs to search in
+         * @param string
+         */
+        findMethodsByController: function(controllers,controllerName) {
 
             var searchFilters = {
-                controllerName: controller
+                controllerName: controllerName
             };
 
-            var result = $rootScope.controllers.filter(function(value) {
-
+            var result = controllers.filter(function(value) {
                 return (value.controllerName === this.controllerName);
             }, searchFilters);
 
@@ -186,13 +202,19 @@ docModule.factory('Util', function($filter, $rootScope) {
     };
 });
 
+/**
+ * Controller for list of methods
+ */
 function ControllerListCtrl($scope,
                             $routeParams,
                             Util) {
 
-    $scope.controllerList = Util.findMethodsByController(
-        $routeParams.controllerName
-    );
+    Util.getExternalDoc().success(function(controllers){
+        $scope.controllerList = Util.findMethodsByController(
+            controllers,
+            $routeParams.controllerName
+        );
+    });
 }
 
 /**
@@ -220,14 +242,20 @@ docModule.filter('hasMethodFilter', [function(){
  * Controller for a list of sidebar with controllers and methods
  */
 function SideBarController($scope, Util) {
-    $scope.ctrlrs = Util.aggregateByController($scope.controllers);
-    $scope.searchQuery = "";
-    $scope.isFiltering = false;
-    $scope.$watch('searchQuery', function(){
-        $scope.isFiltering = $scope.searchQuery.length === 0 ? false : true;
+    Util.getExternalDoc().success(function(controllers){
+        $scope.ctrlrs = Util.aggregateByController(controllers);
+        $scope.searchQuery = "";
+        $scope.isFiltering = false;
+        $scope.$watch('searchQuery', function(){
+            $scope.isFiltering = $scope.searchQuery.length === 0 ? false : true;
+        });
     });
 }
 
+/**
+ * controls the disqus comments
+ * resets everytime a new method view is displayed
+ */
 function DisqusController($scope, $routeParams){
    var identifier = $routeParams.controllerName + '::' + $routeParams.methodName;
    var url = document.location.origin + '/#!' + identifier;
@@ -242,160 +270,183 @@ function DisqusController($scope, $routeParams){
    });
 }
 
-function ViewCtrl($scope,
+/**
+ * Method view controller
+ */
+function MethodViewCtrl($scope,
                   $routeParams,
                   $http,
                   Util) {
 
-    $scope.displayCtrl = Util.findMethod($routeParams.controllerName,
+
+    Util.getExternalDoc().success(function(data){
+        var displayCtrl = Util.findMethod(data,$routeParams.controllerName,
                                          $routeParams.methodName);
 
-    if ($scope.displayCtrl != null) {
+        if (displayCtrl != null) {
+            Util.getModelDoc().success(function(model){
+                $scope.displayCtrl = Util.bindFields(model, displayCtrl);
+                $scope.apiParams   = Util.buildApiConstructor($scope.displayCtrl);
 
-        $scope.displayCtrl = Util.bindFields($scope.displayCtrl);
-        $scope.apiParams   = Util.buildApiConstructor($scope.displayCtrl);
+                $scope.apiCall = "http://api.hasoffers.com/v3/" +
+                    $scope.displayCtrl.controllerName +
+                    ".json?Method=" + $scope.displayCtrl.methodName;
+            }); // get model doc
+        } // display ctrl not null
 
-        $scope.apiCall = "http://api.hasoffers.com/v3/" +
-            $scope.displayCtrl.controllerName +
-            ".json?Method=" + $scope.displayCtrl.methodName;
+      /**
+       * @param bool - is required
+       * @return string
+       */
+      $scope.displayRequired = function(isRequired) {
+          return true === isRequired ? '*' : '';
+      };
 
+      /**
+       * @return bool - whether there is a contains list
+       */
+      $scope.hideContain = function() {
+          return ($scope.displayCtrl && $scope.displayCtrl.containList == null);
+      };
 
-        $scope.displayRequired = function(isRequired) {
+      /**
+       * @param object - param to check
+       * @return bool - whether or not to show the trash button for this parameter
+       */
+      $scope.hideTrashButton = function(param) {
+          return (param.value.isRequired);
+      };
 
-            if (true === isRequired) {
-                return "*";
-            }
+      /**
+       * @param array - reference array to modify
+       * @return void
+       */
+      $scope.addFilterField = function(addTo) {
+          addTo.push({});
+      };
 
-            return "";
-        };
+      /**
+       * runs the api call
+       * @return void
+       */
+      $scope.runApiCall = function() {
+          if ($scope.displayCtrl.networkToken == null ) {
+              $scope.apiResponse = 'Please provide Network Token';
+              return;
+          }
 
-        $scope.hideContain = function() {
-            return ($scope.displayCtrl.containList == null);
-        };
+          if ($scope.displayCtrl.networkId == null ) {
+              $scope.apiResponse = 'Please provide Network Id';
+              return;
+          }
 
-        $scope.hideTrashButton = function(param) {
-            return (param.value.isRequired);
-        };
+          $http.jsonp($scope.apiCall.replace("json", "jsonp") +
+                      "&callback=JSON_CALLBACK")
+              .success(function(data) {
+                  $scope.apiResponse = angular.toJson(data, true);
+              })
+              .error(function(data) {
+                  $scope.apiResponse = angular.toJson(data, true);
+              });
+      };
 
-        $scope.addFilterField = function(addTo) {
-            addTo.push({});
-        };
+      /**
+       * constructs a string representation of the api call
+       */
+      $scope.updateApiCall = function() {
 
-        $scope.runApiCall = function() {
-            if ($scope.displayCtrl.networkToken == null ) {
-                $scope.apiResponse = 'Please provide Network Token';
-                return;
-            }
+          $scope.apiCall = "http://api.hasoffers.com/v3/" +
+              $scope.displayCtrl.controllerName +
+              ".json?Method=" + $scope.displayCtrl.methodName;
 
-            if ($scope.displayCtrl.networkId == null ) {
-                $scope.apiResponse = 'Please provide Network Id';
-                return;
-            }
+          if ($scope.displayCtrl.networkToken != null) {
+              $scope.apiCall += "&NetworkToken=" + $scope.displayCtrl.networkToken;
+          }
 
-            $http.jsonp($scope.apiCall.replace("json", "jsonp") +
-                        "&callback=JSON_CALLBACK")
-                .success(function(data) {
-                    $scope.apiResponse = angular.toJson(data, true);
-                })
-                .error(function(data) {
-                    $scope.apiResponse = angular.toJson(data, true);
-                });
-        };
+          if ($scope.displayCtrl.networkId != null) {
+              $scope.apiCall += "&NetworkId=" + $scope.displayCtrl.networkId;
+          }
 
-        $scope.updateApiCall = function() {
+          angular.forEach($scope.apiParams, function(param) {
 
-            $scope.apiCall = "http://api.hasoffers.com/v3/" +
-                $scope.displayCtrl.controllerName +
-                ".json?Method=" + $scope.displayCtrl.methodName;
+              var fieldType   = param.value.name;
+              var parseValues = param.parse;
 
-            if ($scope.displayCtrl.networkToken != null) {
-                $scope.apiCall += "&NetworkToken=" + $scope.displayCtrl.networkToken;
-            }
+              switch (fieldType) {
+                  case "filters":
+                      // Default nesting to "AND"
+                      var nesting = "";
+                      if (param.nesting !== "AND") {
+                          nesting = "[OR]";
+                      }
 
-            if ($scope.displayCtrl.networkId != null) {
-                $scope.apiCall += "&NetworkId=" + $scope.displayCtrl.networkId;
-            }
+                      angular.forEach(parseValues, function(value) {
 
-            angular.forEach($scope.apiParams, function(param) {
+                          // Default operator is equals
+                          var operator = "[]";
+                          if (value.selectOperator != null) {
+                              operator = "[" + value.selectOperator + "]";
+                          }
 
-                var fieldType   = param.value.name;
-                var parseValues = param.parse;
+                          if (value.selectField != null &&
+                              value.selectValue != null) {
 
-                switch (fieldType) {
-                    case "filters":
-                        // Default nesting to "AND"
-                        var nesting = "";
-                        if (param.nesting !== "AND") {
-                            nesting = "[OR]";
-                        }
+                              $scope.apiCall += "&" + fieldType +
+                                  nesting + "[" + value.selectField.name + "]" +
+                                  operator + "=" + value.selectValue;
+                          }
+                      });
+                      break;
 
-                        angular.forEach(parseValues, function(value) {
+                  case "sort":
+                  case "data":
+                      angular.forEach(parseValues, function(value) {
 
-                            // Default operator is equals
-                            var operator = "[]";
-                            if (value.selectOperator != null) {
-                                operator = "[" + value.selectOperator + "]";
-                            }
+                          if (value.selectField != null &&
+                              value.selectValue != null) {
 
-                            if (value.selectField != null &&
-                                value.selectValue != null) {
+                              $scope.apiCall += "&" + fieldType +
+                                  "[" + value.selectField.name + "]" +
+                                  "=" + value.selectValue;
+                          }
+                      });
+                      break;
 
-                                $scope.apiCall += "&" + fieldType +
-                                    nesting + "[" + value.selectField.name + "]" +
-                                    operator + "=" + value.selectValue;
-                            }
-                        });
-                        break;
+                  case "fields":
+                      angular.forEach(parseValues, function(value) {
 
-                    case "sort":
-                    case "data":
-                        angular.forEach(parseValues, function(value) {
+                          if (value.name != null) {
+                              $scope.apiCall += "&" + fieldType +
+                                  "[]=" + value.name;
+                          }
+                      });
+                      break;
 
-                            if (value.selectField != null &&
-                                value.selectValue != null) {
+                  case "field":
+                      if (parseValues.selectValue.name != null) {
+                          $scope.apiCall += "&" + fieldType +
+                              "=" + parseValues.selectValue.name;
+                      }
+                      break;
 
-                                $scope.apiCall += "&" + fieldType +
-                                    "[" + value.selectField.name + "]" +
-                                    "=" + value.selectValue;
-                            }
-                        });
-                        break;
+                  case "contain":
+                      angular.forEach(parseValues, function(value) {
 
-                    case "fields":
-                        angular.forEach(parseValues, function(value) {
+                          if (value.containName != null) {
+                              $scope.apiCall += "&" + fieldType +
+                                  "[]=" + value.containName;
+                          }
+                      });
+                      break;
 
-                            if (value.name != null) {
-                                $scope.apiCall += "&" + fieldType +
-                                    "[]=" + value.name;
-                            }
-                        });
-                        break;
-
-                    case "field":
-                        if (parseValues.selectValue.name != null) {
-                            $scope.apiCall += "&" + fieldType +
-                                "=" + parseValues.selectValue.name;
-                        }
-                        break;
-
-                    case "contain":
-                        angular.forEach(parseValues, function(value) {
-
-                            if (value.containName != null) {
-                                $scope.apiCall += "&" + fieldType +
-                                    "[]=" + value.containName;
-                            }
-                        });
-                        break;
-
-                   default:
-                        if (parseValues.selectValue != null) {
-                            $scope.apiCall += "&" + fieldType +
-                                "=" + parseValues.selectValue;
-                        }
-                        break;
-                }
-            });
-        };
-    }
-}
+                 default:
+                      if (parseValues.selectValue != null) {
+                          $scope.apiCall += "&" + fieldType +
+                              "=" + parseValues.selectValue;
+                      }
+                      break;
+              } // switch
+          }); // foreach
+      }; // updateApiCall()
+    }); // get external doc
+} // MethodViewCtrl
