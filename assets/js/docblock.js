@@ -299,7 +299,7 @@ function MethodViewCtrl($scope,
        * @return string
        */
       $scope.displayRequired = function(isRequired) {
-          return true === isRequired ? '*' : '';
+          return isRequired ? '*' : '';
       };
 
       /**
