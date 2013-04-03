@@ -217,6 +217,7 @@ docModule.factory('UserInfo', function(){
      */
     function getProperty(key){
         return window.localStorage.getItem(key);
+
     } // getProperty()
 
     /**
@@ -226,10 +227,10 @@ docModule.factory('UserInfo', function(){
     function setProperty(key, value){
         try {
             window.localStorage.setItem(key, value);
+            return;
         }
         // fail safe for QUOTA_EXCEEDED error
         catch(e){
-            console.log(e);
             return null;
         }
 
