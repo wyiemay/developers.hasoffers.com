@@ -53,7 +53,9 @@ function DisqusController($scope, $routeParams){
 function MethodViewCtrl($scope,
                   $routeParams,
                   $http,
-                  Util) {
+                  Util,
+                  UserInfo) {
+
 
 
     Util.getExternalDoc().success(function(data){
@@ -64,10 +66,10 @@ function MethodViewCtrl($scope,
             Util.getModelDoc().success(function(model){
                 $scope.displayCtrl = Util.bindFields(model, displayCtrl);
                 $scope.apiParams   = Util.buildApiConstructor($scope.displayCtrl);
-
-                $scope.apiCall = "http://api.hasoffers.com/v3/" +
-                    $scope.displayCtrl.controllerName +
-                    ".json?Method=" + $scope.displayCtrl.methodName;
+                // default to user info
+                $scope.displayCtrl.networkToken = UserInfo.getProperty('NetworkToken');
+                $scope.displayCtrl.networkId = UserInfo.getProperty('NetworkId');
+                $scope.updateApiCall();
             }); // get model doc
         } // display ctrl not null
 
@@ -117,10 +119,16 @@ function MethodViewCtrl($scope,
               return;
           }
 
+          // update user info
+          UserInfo.setProperty('NetworkToken', $scope.displayCtrl.networkToken);
+
           if ($scope.displayCtrl.networkId == null ) {
               $scope.apiResponse = 'Please provide Network Id';
               return;
           }
+
+          // update user info
+          UserInfo.setProperty('NetworkId', $scope.displayCtrl.networkId);
 
           $http.jsonp($scope.apiCall.replace("json", "jsonp") +
                       "&callback=JSON_CALLBACK")
