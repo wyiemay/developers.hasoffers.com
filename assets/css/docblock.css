@@ -32,7 +32,6 @@ body {
 .header {
 	display: block;
 	height: 45px;
-	overflow: hidden;
 	border-bottom: 1px solid #ccc;
 	background: #ffffff; /* Old browsers */
 	background: -moz-linear-gradient(top,  #ffffff 20%, #e5e5e5 100%); /* FF3.6+ */
