@@ -11,3 +11,10 @@ Just fork the repo and run it locally. Simple :)
 
 ## TODO
 See the issue list (https://github.com/Adapp/developers.hasoffers.com/issues)
+
+## How to contribute
+- Fork the repository
+- Validate coding style
+    - npm install -g jshint
+    - jshint assets/js/
+- Send in a pull request
