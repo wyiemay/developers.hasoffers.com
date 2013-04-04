@@ -236,7 +236,7 @@ docModule.factory('UserInfo', function(){
 
     } // setProperty()
 
-    var hasLocalStorage ='localStorage' in window && window['localStorage'] !== null;
+    var hasLocalStorage = 'localStorage' in window && window.localStorage !== null;
     // if we don't have local storage we will return an object
     // that returns null for all it's methods
     if (!hasLocalStorage){
@@ -244,13 +244,13 @@ docModule.factory('UserInfo', function(){
         return {
             getProperty: nullFunc,
             setProperty: nullFunc,
-        }
+        };
     }
 
     return {
         getProperty: getProperty,
         setProperty: setProperty
-    }
+    };
 });
 
 /**

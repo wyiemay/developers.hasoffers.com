@@ -13,5 +13,8 @@
      "undef": true,
      "strict": false,
      "trailing": true,
-     "smarttabs": true
+     "smarttabs": true,
+     "globals": { "window": false, "angular":false,
+                  "DISQUS": false, "document":false,
+                  "ControllerListCtrl": false, "MethodViewCtrl": false }
 }
