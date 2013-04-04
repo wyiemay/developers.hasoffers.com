@@ -208,6 +208,52 @@ docModule.factory('Util', function($filter, $rootScope,$http) {
 });
 
 /**
+ * A key value store object for storing user information
+ */
+docModule.factory('UserInfo', function(){
+    /**
+     * @param string - key
+     * @return value or null
+     */
+    function getProperty(key){
+        return window.localStorage.getItem(key);
+
+    } // getProperty()
+
+    /**
+     * @param string - key to set
+     * @param mixed - value to set the key to
+     */
+    function setProperty(key, value){
+        try {
+            window.localStorage.setItem(key, value);
+            return;
+        }
+        // fail safe for QUOTA_EXCEEDED error
+        catch(e){
+            return null;
+        }
+
+    } // setProperty()
+
+    var hasLocalStorage ='localStorage' in window && window['localStorage'] !== null;
+    // if we don't have local storage we will return an object
+    // that returns null for all it's methods
+    if (!hasLocalStorage){
+        var nullFunc = function(){ return null; };
+        return {
+            getProperty: nullFunc,
+            setProperty: nullFunc,
+        }
+    }
+
+    return {
+        getProperty: getProperty,
+        setProperty: setProperty
+    }
+});
+
+/**
  * hasMethodFilter
  * filters controllers based on whether or not the partial matches a method name in the controller
  */
