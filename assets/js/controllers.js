@@ -1,4 +1,4 @@
-(function(window, DISQUS, undefined) {
+(function(window, DISQUS) {
     'use strict';
 
     /**
