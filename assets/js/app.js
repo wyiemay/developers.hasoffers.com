@@ -3,60 +3,68 @@
 
     var docModule = angular.module('Docs', ['ui.bootstrap']);
 
-    docModule.config(function($routeProvider) {
-        /**
-         * Routes
-         */
+    /**
+     * Route configuration.
+     *
+     * @param {ng.$routeProvider} $routeProvider
+     */
+    var routeConfig = function($routeProvider) {
         $routeProvider.when('/',
-                            {templateUrl: 'welcome.html'}
+                {templateUrl: 'welcome.html'}
             )
             .when('/controller/:controllerName',
-                  {controller:  ControllerListCtrl,
-                   templateUrl: 'controllerList.html'}
+                {controller: ControllerListCtrl, templateUrl: 'controllerList.html'}
             )
             .when('/controller/:controllerName/method/:methodName',
-                  {controller:  MethodViewCtrl,
-                   templateUrl: 'details.html'}
+                {controller: MethodViewCtrl, templateUrl: 'details.html'}
             )
             .otherwise({redirectTo: '/'});
-    });
+    };
+
+    docModule.config(routeConfig);
 
     /**
-     * Utility library
+     * Utility service
      */
     docModule.factory('Util', function($filter, $rootScope, $http) {
         // Public methods:
         return {
             /**
-             * getExternalDoc
-             * gets the documentation for external public facing controllers/methods
-             * @return promise
+             * Gets documentation for external public facing controllers/methods.
+             *
+             * @return {ng.$HttpPromise}  A promise for the get request.
              */
             getExternalDoc: function() {
                 return $http.get('docSource/External_doc.json');
             },
+
             /**
-             * getModelDoc
-             * gets the documentation for the Model
+             * Gets documentation for the models.
+             *
+             * @return {ng.$HttpPromise}  A promise for the get request.
              */
             getModelDoc: function() {
                 return $http.get('docSource/Model_doc.json');
             },
-            /**
-             * findMethod
-             * @param controllers - list of controllers to search
-             * @param controllerName - controller name to search by
-             */
-            findMethod: function(controllers, controllerName, methodName) {
 
+            /**
+             * Returns the method definition if one with a specified name is found in the specified
+             * controller.
+             *
+             * @param  {Array}   methods         List of methods to search.
+             * @param  {string}  controllerName  Controller in which to search for the method.
+             * @param  {string}  methodName      Name of the method to search for.
+             * @return {?Object}                 The method definition or null if not found.
+             */
+            findMethod: function(methods, controllerName, methodName) {
                 var searchFilters = {
                     controllerName: controllerName,
-                    methodName:     methodName
+                    methodName: methodName
                 };
 
-                var result = controllers.filter(function(value) {
+                var result = methods.filter(function(value) {
                     return (value.controllerName === this.controllerName &&
-                            value.methodName     === this.methodName);
+                            value.methodName === this.methodName);
                 }, searchFilters);
 
                 if (result.length === 0) {
@@ -65,17 +73,18 @@
 
                 return result[0];
             },
+
             /**
-             * bindFields
-             * binds fields to be used with the method to the method object
-             * @param array - model documentation to extract from
-             * @param json  - method data to bind fields to
-             * @return json - method with binded fields
+             * Binds fields to be used with the method to the method object.
+             *
+             * @param  {Array.<Object>} models  Domain models.
+             * @param  {Object}         method  A method to bind fields to.
+             * @return {Object}                 The method passed in, with fields bound.
              */
-            bindFields: function(models, displayCtrl) {
-                 if (displayCtrl.linkModel != null) {
+            bindFields: function(models, method) {
+                 if (method.linkModel != null) {
                      var searchFilter = {
-                         namespace: displayCtrl.linkModel
+                         namespace: method.linkModel
                      };
 
                      var results = models.filter(function(value) {
@@ -83,23 +92,28 @@
                      }, searchFilter);
 
                      if (results.length !== 0) {
-                         displayCtrl.fields = results[0].fields;
+                         method.fields = results[0].fields;
                      }
                  }
 
-                 return displayCtrl;
+                 return method;
             },
+
             /**
-             * buildApiConstructor
-             * @json - method object
+             * Returns an array of details for a method's parameters, including the template to
+             * display their details to the user.
+             *
+             * @param  {Object}                  method  The method definition.
+             * @return {Array.<Object>}                  An array of details about each parameter
+             *                                           for the method.
              */
-            buildApiConstructor: function(displayCtrl) {
+            buildApiConstructor: function(method) {
                 var paramObjects = {
                     filters: {
                         template: 'filtersParam.html',
                         nesting: {
                             AND: 'AND',
-                            OR:  'OR'
+                            OR: 'OR'
                         },
                         operators: [
                             {name: '=',     value: ''},
@@ -116,7 +130,7 @@
                         template: 'dataParam.html'
                     },
                     sort: {
-                        template:   'sortParam.html',
+                        template: 'sortParam.html',
                         directions: ['ASC', 'DESC']
                     },
                     fields: {
@@ -134,8 +148,7 @@
                 };
 
                 var apiParams = [];
-                angular.forEach(displayCtrl.params, function(param) {
-
+                angular.forEach(method.params, function(param) {
                     var paramType = paramObjects.other;
                     if (paramObjects[param.name] != null) {
                         paramType = paramObjects[param.name];
@@ -143,24 +156,28 @@
 
                     apiParams.push({
                         value: param,
-                        type:  paramType,
+                        type: paramType,
                         parse: []
                     });
                 });
 
                 return apiParams;
             },
+
             /**
-             * findMethodsByController
-             * @param array - external docs to search in
-             * @param string
+             * Returns all the methods in the specified controller.
+             *
+             * @param  {Array.<Object>}  methods        The methods to search in.
+             * @param  {string}          controllerName The name of the controller whose methods to
+             *                                          return.
+             * @return {?Array.<Object>}                The matching methods, or null if none found.
              */
-            findMethodsByController: function(controllers, controllerName) {
+            findMethodsByController: function(methods, controllerName) {
                 var searchFilters = {
                     controllerName: controllerName
                 };
 
-                var result = controllers.filter(function(value) {
+                var result = methods.filter(function(value) {
                     return (value.controllerName === this.controllerName);
                 }, searchFilters);
 
@@ -170,25 +187,27 @@
 
                 return result;
             },
+
             /**
-             * aggregateByController
-             * morphs the flat list of controllers into a structured list of [{controllerName to methodNames},...]
-             * @param array - list of controllers
-             * @return array - see description
+             * Groups a flat list of methods by controller.
+             * [{controllerName to methodNames},...]
+             *
+             * @param  {Array.<Object>} methods  List of methods.
+             * @return {Array.<Object>}          List of controllers with their methods nested.
              */
-            aggregateByController: function(controllers) {
+            aggregateByController: function(methods) {
                 var ctrlrs = {},
                     ctrlrsArray = [],
                     i = 0;
 
-                for (i; i < controllers.length; i++) {
-                    var controller = controllers[i];
+                for (i; i < methods.length; i++) {
+                    var method = methods[i];
 
-                    if (ctrlrs[controller.controllerName]) {
-                        ctrlrs[controller.controllerName].push(controller.methodName);
+                    if (ctrlrs[method.controllerName]) {
+                        ctrlrs[method.controllerName].push(method.methodName);
                     }
                     else {
-                        ctrlrs[controller.controllerName] = [controller.methodName];
+                        ctrlrs[method.controllerName] = [method.methodName];
                     }
                 }
 
@@ -207,20 +226,25 @@
     });
 
     /**
-     * A key value store object for storing user information
+     * A key/value storage service for user information, backed by localStorage.
      */
     docModule.factory('UserInfo', function() {
         /**
-         * @param string - key
-         * @return value or null
+         * Returns user value set for the specified property in localStorage.
+         *
+         * @param  {string} key  The property whose value to get.
+         * @return {?*}          The value if set, or null if not set.
          */
         function getProperty(key) {
             return window.localStorage.getItem(key);
-        } // getProperty()
+        }
 
         /**
-         * @param string - key to set
-         * @param mixed - value to set the key to
+         * Attempts to set a property for the user in localStorage.
+         * Silently fails if attempt to set property fails.
+         *
+         * @param {string} key    The name of the property to set.
+         * @param {*}      value  The value to set for the property.
          */
         function setProperty(key, value) {
             try {
@@ -229,8 +253,7 @@
             catch (e) {
                 // fail safe for QUOTA_EXCEEDED error
             }
-
-        } // setProperty()
+        }
 
         var hasLocalStorage = 'localStorage' in window && window.localStorage !== null;
         // if we don't have local storage we will return an object
@@ -250,8 +273,8 @@
     });
 
     /**
-     * hasMethodFilter
-     * filters controllers based on whether or not the partial matches a method name in the controller
+     * Creates a filter (hasMethodFilter) that returns controllers which have a method whose name is
+     * a partial match.
      */
     docModule.filter('hasMethodFilter', [function() {
         return function(controllers, methodNamePartial) {

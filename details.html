@@ -9,8 +9,8 @@
 
     <li>
         <span>
-            <a href="#/controller/{{ displayCtrl.controllerName }}">
-                {{ displayCtrl.controllerName }}
+            <a href="#/controller/{{ displayedMethod.controllerName }}">
+                {{ displayedMethod.controllerName }}
             </a>
         </span>
 
@@ -18,27 +18,27 @@
     </li>
 
     <li>
-        <span>{{ displayCtrl.methodName }}</span>
+        <span>{{ displayedMethod.methodName }}</span>
     </li>
 </ul>
 
 <dl>
     <dt>Controller</dt>
-    <dd>{{ displayCtrl.controllerName }}</dd>
+    <dd>{{ displayedMethod.controllerName }}</dd>
 
     <dt>Method</dt>
-    <dd>{{ displayCtrl.methodName }}</dd>
+    <dd>{{ displayedMethod.methodName }}</dd>
 
     <dt>Description</dt>
-    <dd>{{ displayCtrl.methodDescription }}</dd>
+    <dd>{{ displayedMethod.methodDescription }}</dd>
 
     <ng-include src="'params.html'"></ng-include>
 
     <dt>Return Type</dt>
-    <dd>{{ displayCtrl.returnType }}</dd>
+    <dd>{{ displayedMethod.returnType }}</dd>
 
     <dt>Return Description</dt>
-    <dd>{{ displayCtrl.returnDescription }}</dd>
+    <dd>{{ displayedMethod.returnDescription }}</dd>
 
     <ng-include src="'contain.html'"></ng-include>
 
