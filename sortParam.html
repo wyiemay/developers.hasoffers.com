@@ -4,7 +4,7 @@
         <div class="input-append">
             <select class="input-medium"
                     ng-model="p.selectField"
-                    ng-options="field.name for field in displayCtrl.fields"
+                    ng-options="field.name for field in displayedMethod.fields"
                     ng-change="updateApiCall()">
             </select>
 

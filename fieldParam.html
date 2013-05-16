@@ -1,5 +1,5 @@
 <select class="input-medium"
         ng-model="param.parse.selectValue"
-        ng-options="field.name for field in displayCtrl.fields"
+        ng-options="field.name for field in displayedMethod.fields"
         ng-change="updateApiCall()">
 </select>
