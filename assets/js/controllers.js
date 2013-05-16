@@ -5,7 +5,7 @@
      * Controller for list of methods
      */
     window.ControllerListCtrl = function($scope, $routeParams, Util) {
-        Util.getExternalDoc().success(function(controllers){
+        Util.getExternalDoc().success(function(controllers) {
             $scope.controllerList = Util.findMethodsByController(
                 controllers,
                 $routeParams.controllerName
@@ -17,11 +17,11 @@
      * Controller for a list of sidebar with controllers and methods
      */
     window.SideBarController = function($scope, Util) {
-        Util.getExternalDoc().success(function(controllers){
+        Util.getExternalDoc().success(function(controllers) {
             $scope.ctrlrs = Util.aggregateByController(controllers);
             $scope.searchQuery = '';
             $scope.isFiltering = false;
-            $scope.$watch('searchQuery', function(){
+            $scope.$watch('searchQuery', function() {
                 $scope.isFiltering = $scope.searchQuery.length === 0 ? false : true;
             });
         });
@@ -31,14 +31,14 @@
      * controls the disqus comments
      * resets everytime a new method view is displayed
      */
-    window.DisqusController = function($scope, $routeParams){
+    window.DisqusController = function($scope, $routeParams) {
        var identifier = $routeParams.controllerName + '::' + $routeParams.methodName;
        var url = document.location.origin + '/#!' + identifier;
 
        // reset the disqus comments for the current page
        DISQUS.reset({
          reload: true,
-         config: function () {
+         config: function() {
            this.page.identifier = identifier;
            this.page.url = url;
          }
@@ -49,12 +49,15 @@
      * Method view controller
      */
     window.MethodViewCtrl = function($scope, $routeParams, $http, Util, UserInfo) {
-        Util.getExternalDoc().success(function(data){
-            var displayCtrl = Util.findMethod(data,$routeParams.controllerName,
-                                             $routeParams.methodName);
+        Util.getExternalDoc().success(function(data) {
+            var displayCtrl = Util.findMethod(
+                data,
+                $routeParams.controllerName,
+                $routeParams.methodName
+            );
 
             if (displayCtrl != null) {
-                Util.getModelDoc().success(function(model){
+                Util.getModelDoc().success(function(model) {
                     $scope.displayCtrl = Util.bindFields(model, displayCtrl);
                     $scope.apiParams   = Util.buildApiConstructor($scope.displayCtrl);
                     // default to user info
@@ -105,7 +108,7 @@
            * @return void
            */
           $scope.runApiCall = function() {
-              if ($scope.displayCtrl.networkToken == null ) {
+              if ($scope.displayCtrl.networkToken == null) {
                   $scope.apiResponse = 'Please provide Network Token';
                   return;
               }
@@ -113,7 +116,7 @@
               // update user info
               UserInfo.setProperty('NetworkToken', $scope.displayCtrl.networkToken);
 
-              if ($scope.displayCtrl.networkId == null ) {
+              if ($scope.displayCtrl.networkId == null) {
                   $scope.apiResponse = 'Please provide Network Id';
                   return;
               }
@@ -136,7 +139,6 @@
            * constructs a string representation of the api call
            */
           $scope.updateApiCall = function() {
-
               $scope.apiCall = 'http://api.hasoffers.com/v3/' +
                   $scope.displayCtrl.controllerName +
                   '.json?Method=' + $scope.displayCtrl.methodName;
@@ -150,7 +152,6 @@
               }
 
               angular.forEach($scope.apiParams, function(param) {
-
                   var fieldType   = param.value.name;
                   var parseValues = param.parse;
 
@@ -163,7 +164,6 @@
                           }
 
                           angular.forEach(parseValues, function(value) {
-
                               // Default operator is equals
                               var operator = '[]';
                               if (value.selectOperator != null) {
