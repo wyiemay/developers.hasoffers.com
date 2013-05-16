@@ -1,5 +1,5 @@
 (function(window) {
-    "use strict";
+    'use strict';
 
     var docModule = angular.module('Docs', ['ui.bootstrap']);
 
@@ -8,15 +8,15 @@
          * Routes
          */
         $routeProvider.when('/',
-                            {templateUrl: "welcome.html"}
+                            {templateUrl: 'welcome.html'}
             )
-            .when("/controller/:controllerName",
+            .when('/controller/:controllerName',
                   {controller:  ControllerListCtrl,
-                   templateUrl: "controllerList.html"}
+                   templateUrl: 'controllerList.html'}
             )
-            .when("/controller/:controllerName/method/:methodName",
+            .when('/controller/:controllerName/method/:methodName',
                   {controller:  MethodViewCtrl,
-                   templateUrl: "details.html"}
+                   templateUrl: 'details.html'}
             )
             .otherwise({redirectTo: '/'});
     });
@@ -98,40 +98,40 @@
 
                 var paramObjects = {
                     filters: {
-                        template: "filtersParam.html",
+                        template: 'filtersParam.html',
                         nesting: {
-                            AND: "AND",
-                            OR:  "OR"
+                            AND: 'AND',
+                            OR:  'OR'
                         },
                         operators: [
-                            {name: "=",     value: ""},
-                            {name: "!=",    value: "NOT_EQUAL_TO"},
-                            {name: "<",     value: "LESS_THAN"},
-                            {name: "<=",    value: "LESS_THAN_OR_EQUAL_TO"},
-                            {name: ">",     value: "GREATER_THAN"},
-                            {name: ">=",    value: "GREATER_THAN_OR_EQUAL_TO"},
-                            {name: "like",  value: "LIKE"},
-                            {name: "rlike", value: "RLIKE"}
+                            {name: '=',     value: ''},
+                            {name: '!=',    value: 'NOT_EQUAL_TO'},
+                            {name: '<',     value: 'LESS_THAN'},
+                            {name: '<=',    value: 'LESS_THAN_OR_EQUAL_TO'},
+                            {name: '>',     value: 'GREATER_THAN'},
+                            {name: '>=',    value: 'GREATER_THAN_OR_EQUAL_TO'},
+                            {name: 'like',  value: 'LIKE'},
+                            {name: 'rlike', value: 'RLIKE'}
                         ]
                     },
                     data: {
-                        template: "dataParam.html"
+                        template: 'dataParam.html'
                     },
                     sort: {
-                        template:   "sortParam.html",
+                        template:   'sortParam.html',
                         directions: ['ASC', 'DESC']
                     },
                     fields: {
-                        template: "fieldsParam.html"
+                        template: 'fieldsParam.html'
                     },
                     field: {
-                        template: "fieldParam.html"
+                        template: 'fieldParam.html'
                     },
                     contain: {
-                        template: "containParam.html"
+                        template: 'containParam.html'
                     },
                     other: {
-                        template: "otherParam.html"
+                        template: 'otherParam.html'
                     }
                 };
 
