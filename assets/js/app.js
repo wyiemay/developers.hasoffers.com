@@ -24,7 +24,7 @@
     /**
      * Utility library
      */
-    docModule.factory('Util', function($filter, $rootScope,$http) {
+    docModule.factory('Util', function($filter, $rootScope, $http) {
         // Public methods:
         return {
             /**
@@ -32,14 +32,14 @@
              * gets the documentation for external public facing controllers/methods
              * @return promise
              */
-            getExternalDoc: function(){
+            getExternalDoc: function() {
                 return $http.get('docSource/External_doc.json');
             },
             /**
              * getModelDoc
              * gets the documentation for the Model
              */
-            getModelDoc: function(){
+            getModelDoc: function() {
                 return $http.get('docSource/Model_doc.json');
             },
             /**
@@ -47,7 +47,7 @@
              * @param controllers - list of controllers to search
              * @param controllerName - controller name to search by
              */
-            findMethod: function(controllers,controllerName, methodName) {
+            findMethod: function(controllers, controllerName, methodName) {
 
                 var searchFilters = {
                     controllerName: controllerName,
@@ -72,9 +72,8 @@
              * @param json  - method data to bind fields to
              * @return json - method with binded fields
              */
-            bindFields: function(models,displayCtrl) {
+            bindFields: function(models, displayCtrl) {
                  if (displayCtrl.linkModel != null) {
-
                      var searchFilter = {
                          namespace: displayCtrl.linkModel
                      };
@@ -95,7 +94,6 @@
              * @json - method object
              */
             buildApiConstructor: function(displayCtrl) {
-
                 var paramObjects = {
                     filters: {
                         template: 'filtersParam.html',
@@ -157,8 +155,7 @@
              * @param array - external docs to search in
              * @param string
              */
-            findMethodsByController: function(controllers,controllerName) {
-
+            findMethodsByController: function(controllers, controllerName) {
                 var searchFilters = {
                     controllerName: controllerName
                 };
@@ -179,27 +176,28 @@
              * @param array - list of controllers
              * @return array - see description
              */
-            aggregateByController: function(controllers){
+            aggregateByController: function(controllers) {
                 var ctrlrs = {},
                     ctrlrsArray = [],
                     i = 0;
 
-                for (i; i < controllers.length; i++){
+                for (i; i < controllers.length; i++) {
                     var controller = controllers[i];
 
-                    if (!ctrlrs[controller.controllerName]){
+                    if (!ctrlrs[controller.controllerName]) {
                         ctrlrs[controller.controllerName] = [controller.methodName];
                     }
-                    else
-                    {
+                    else {
                         ctrlrs[controller.controllerName].push(controller.methodName);
                     }
                 }
 
-                for (var controllerName in ctrlrs)
-                {
-                    if (ctrlrs.hasOwnProperty(controllerName)){
-                        ctrlrsArray.push({controllerName: controllerName, methods: ctrlrs[controllerName]});
+                for (var controllerName in ctrlrs) {
+                    if (ctrlrs.hasOwnProperty(controllerName)) {
+                        ctrlrsArray.push({
+                            controllerName: controllerName,
+                            methods: ctrlrs[controllerName]
+                        });
                     }
                 }
 
@@ -211,21 +209,20 @@
     /**
      * A key value store object for storing user information
      */
-    docModule.factory('UserInfo', function(){
+    docModule.factory('UserInfo', function() {
         /**
          * @param string - key
          * @return value or null
          */
-        function getProperty(key){
+        function getProperty(key) {
             return window.localStorage.getItem(key);
-
         } // getProperty()
 
         /**
          * @param string - key to set
          * @param mixed - value to set the key to
          */
-        function setProperty(key, value){
+        function setProperty(key, value) {
             try {
                 window.localStorage.setItem(key, value);
                 return;
@@ -240,8 +237,8 @@
         var hasLocalStorage = 'localStorage' in window && window.localStorage !== null;
         // if we don't have local storage we will return an object
         // that returns null for all it's methods
-        if (!hasLocalStorage){
-            var nullFunc = function(){ return null; };
+        if (!hasLocalStorage) {
+            var nullFunc = function() { return null; };
             return {
                 getProperty: nullFunc,
                 setProperty: nullFunc
@@ -258,8 +255,8 @@
      * hasMethodFilter
      * filters controllers based on whether or not the partial matches a method name in the controller
      */
-    docModule.filter('hasMethodFilter', [function(){
-        return function(controllers, methodNamePartial){
+    docModule.filter('hasMethodFilter', [function() {
+        return function(controllers, methodNamePartial) {
             if (methodNamePartial === '' || methodNamePartial === undefined) {
                 return controllers;
             }
@@ -268,7 +265,9 @@
             var newList = controllers.filter(function(controller) {
                // turn the array into a string and check if there is any
                // partial instance of the method name in the string of method names
-               return controller.methods.join(' ').toLowerCase().match(methodNamePartial.toLowerCase());
+               return controller.methods.join(' ')
+                   .toLowerCase()
+                   .match(methodNamePartial.toLowerCase());
             });
 
             return newList;
