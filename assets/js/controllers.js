@@ -22,7 +22,7 @@
             $scope.searchQuery = '';
             $scope.isFiltering = false;
             $scope.$watch('searchQuery', function() {
-                $scope.isFiltering = $scope.searchQuery.length === 0 ? false : true;
+                $scope.isFiltering = ($scope.searchQuery.length !== 0);
             });
         });
     };

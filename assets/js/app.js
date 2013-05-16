@@ -184,11 +184,11 @@
                 for (i; i < controllers.length; i++) {
                     var controller = controllers[i];
 
-                    if (!ctrlrs[controller.controllerName]) {
-                        ctrlrs[controller.controllerName] = [controller.methodName];
+                    if (ctrlrs[controller.controllerName]) {
+                        ctrlrs[controller.controllerName].push(controller.methodName);
                     }
                     else {
-                        ctrlrs[controller.controllerName].push(controller.methodName);
+                        ctrlrs[controller.controllerName] = [controller.methodName];
                     }
                 }
 
@@ -225,11 +225,9 @@
         function setProperty(key, value) {
             try {
                 window.localStorage.setItem(key, value);
-                return;
             }
-            // fail safe for QUOTA_EXCEEDED error
-            catch(e){
-                return null;
+            catch (e) {
+                // fail safe for QUOTA_EXCEEDED error
             }
 
         } // setProperty()
@@ -262,16 +260,13 @@
             }
 
             // filter controllers which don't have a method matching the partial
-            var newList = controllers.filter(function(controller) {
+            return controllers.filter(function(controller) {
                // turn the array into a string and check if there is any
                // partial instance of the method name in the string of method names
                return controller.methods.join(' ')
                    .toLowerCase()
                    .match(methodNamePartial.toLowerCase());
             });
-
-            return newList;
         };
-
     }]);
 })(window);
