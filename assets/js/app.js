@@ -243,7 +243,7 @@ docModule.factory('UserInfo', function(){
         var nullFunc = function(){ return null; };
         return {
             getProperty: nullFunc,
-            setProperty: nullFunc,
+            setProperty: nullFunc
         };
     }
 
