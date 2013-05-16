@@ -104,7 +104,7 @@
              * display their details to the user.
              *
              * @param  {Object}                  method  The method definition.
-             * @return {Array.<string, Object>}          An array of details about each parameter
+             * @return {Array.<Object>}                  An array of details about each parameter
              *                                           for the method.
              */
             buildApiConstructor: function(method) {
