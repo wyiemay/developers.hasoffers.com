@@ -244,7 +244,7 @@
             var nullFunc = function(){ return null; };
             return {
                 getProperty: nullFunc,
-                setProperty: nullFunc,
+                setProperty: nullFunc
             };
         }
 
