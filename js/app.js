@@ -110,7 +110,7 @@
             buildApiConstructor: function(method) {
                 var paramObjects = {
                     filters: {
-                        template: 'filtersParam.html',
+                        template: 'partials/filtersParam.html',
                         nesting: {
                             AND: 'AND',
                             OR: 'OR'
@@ -127,23 +127,23 @@
                         ]
                     },
                     data: {
-                        template: 'dataParam.html'
+                        template: 'partials/dataParam.html'
                     },
                     sort: {
-                        template: 'sortParam.html',
+                        template: 'partials/sortParam.html',
                         directions: ['ASC', 'DESC']
                     },
                     fields: {
-                        template: 'fieldsParam.html'
+                        template: 'partials/fieldsParam.html'
                     },
                     field: {
-                        template: 'fieldParam.html'
+                        template: 'partials/fieldParam.html'
                     },
                     contain: {
-                        template: 'containParam.html'
+                        template: 'partials/containParam.html'
                     },
                     other: {
-                        template: 'otherParam.html'
+                        template: 'partials/otherParam.html'
                     }
                 };
 
