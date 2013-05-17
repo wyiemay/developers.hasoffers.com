@@ -1,14 +1,14 @@
 (function(window) {
     'use strict';
 
-    var docModule = angular.module('Docs', ['ui.bootstrap']);
+    var docModule = angular.module('Docs', ['ui.bootstrap.accordion']);
 
     /**
      * Route configuration.
      *
      * @param {ng.$routeProvider} $routeProvider
      */
-    var routeConfig = function($routeProvider) {
+    docModule.config(function($routeProvider) {
         $routeProvider.when('/',
                 {templateUrl: 'welcome.html'}
             )
@@ -19,14 +19,12 @@
                 {controller: MethodViewCtrl, templateUrl: 'details.html'}
             )
             .otherwise({redirectTo: '/'});
-    };
-
-    docModule.config(routeConfig);
+    });
 
     /**
      * Utility service
      */
-    docModule.factory('Util', function($filter, $rootScope, $http) {
+    docModule.factory('Util', function($http) {
         // Public methods:
         return {
             /**
@@ -278,7 +276,7 @@
      */
     docModule.filter('hasMethodFilter', [function() {
         return function(controllers, methodNamePartial) {
-            if (methodNamePartial === '' || methodNamePartial === undefined) {
+            if (methodNamePartial === '' || angular.isUndefined(methodNamePartial)) {
                 return controllers;
             }
 
