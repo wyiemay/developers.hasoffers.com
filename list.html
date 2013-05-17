@@ -17,7 +17,7 @@
             </li>
             <li class="body">
                 <div>
-                    <p ng-repeat="method in controller.methods | filter: searchQuery">
+                    <p ng-repeat="method in controller.methods | filter: searchQuery | orderBy: 'toString()' ">
                         <a href="#/controller/{{controller.controllerName}}/method/{{method}}">{{method}}</a>
                     </p>
                 </div>
