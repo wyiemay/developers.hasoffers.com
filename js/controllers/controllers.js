@@ -33,6 +33,7 @@
                 $scope.isFiltering = ($scope.searchQuery.length !== 0);
             });
         });
+
     };
 
     /**

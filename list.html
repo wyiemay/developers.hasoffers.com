@@ -5,8 +5,8 @@
        placeholder="Search">
     <accordion class="side-bar" close-others="false" ng-hide="isFiltering">
         <accordion-group isOpen="false" heading="{{controller.controllerName}} ({{controller.methods.length}})" ng-repeat="controller in ctrlrs | hasMethodFilter: searchQuery">
-            <p ng-repeat="method in controller.methods | filter: searchQuery">
-                <a href="#/controller/{{ controller.controllerName }}/method/{{ method }}">{{ method }}</a>
+            <p ng-repeat="method in controller.methods | filter: searchQuery | orderBy: 'toString()' ">
+                <a href="#/controller/{{controller.controllerName}}/method/{{method}}">{{method}}</a>
             </p>
         </accordion-group>
     </accordion>
@@ -18,7 +18,7 @@
             <li class="body">
                 <div>
                     <p ng-repeat="method in controller.methods | filter: searchQuery">
-                        <a href="#/controller/{{ controller.controllerName }}/method/{{ method }}">{{ method }}</a>
+                        <a href="#/controller/{{controller.controllerName}}/method/{{method}}">{{method}}</a>
                     </p>
                 </div>
             </li>
