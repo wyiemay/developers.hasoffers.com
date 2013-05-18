@@ -38,3 +38,5 @@ Thumbs.db
 
 # PhpStorm (IDE) project files
 .idea/*
+
+node_modules/*
