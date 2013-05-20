@@ -1,6 +1,9 @@
 {
   "name": "developers-hasoffers",
   "version": "0.1.0",
+  "dependencies": {
+    "karma": "0.8.5"
+  },
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-jshint": "~0.1.1",

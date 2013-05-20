@@ -19,4 +19,6 @@ See the issue list (https://github.com/Adapp/developers.hasoffers.com/issues)
 - Validate coding style
     - npm install -g jshint
     - jshint assets/js/
+- Pass unit test
+    - npm install -g karma
 - Send in a pull request
