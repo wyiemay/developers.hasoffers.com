@@ -117,7 +117,24 @@ body {
 {
     margin-left: 10px;
 }
+
 .side-bar ul li.heading
 {
     margin-bottom:5px;
+}
+
+div#api_health {
+    color: #468847;
+    border-radius:3px;
+    padding: 8px 15px;
+}
+
+#api_health.good {
+    font-weight:bold;
+    border: 1px solid #99ccb2;
+}
+
+#api_health.bad {
+    font-weight:bold;
+    color:#b94a48;
 }
