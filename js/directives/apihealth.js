@@ -1,5 +1,4 @@
-angular.module('Docs')
-.directive('apiHealth',function($http) {
+angular.module('Docs').directive('apiHealth',function($http) {
    return {
       restrict: 'E',
       controller: function HealthCheckCtrl($scope, $http) {
