@@ -2,7 +2,8 @@
   "name": "developers-hasoffers",
   "version": "0.1.0",
   "dependencies": {
-    "karma": "0.8.5"
+    "karma": "0.8.5",
+    "phantomjs":"1.9.0-4"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
