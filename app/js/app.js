@@ -33,7 +33,7 @@
              * @return {ng.$HttpPromise}  A promise for the get request.
              */
             getExternalDoc: function() {
-                return $http.get('docSource/External_doc.json');
+                return $http.get('resource/External_doc.json');
             },
 
             /**
@@ -42,7 +42,7 @@
              * @return {ng.$HttpPromise}  A promise for the get request.
              */
             getModelDoc: function() {
-                return $http.get('docSource/Model_doc.json');
+                return $http.get('resource/Model_doc.json');
             },
 
             /**
