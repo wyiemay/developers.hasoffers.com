@@ -21,10 +21,10 @@ See the issue list (https://github.com/Adapp/developers.hasoffers.com/issues)
 
 ## How to contribute
 - Fork the repository
-- Validate coding style
+- Validate coding style:
     - npm install -g jshint
     - jshint assets/js/
-- Pass unit test
+- Execute unit tests:
     - ./scripts/test.sh
     - ./scripts/e2e-test.sh
 - Send in a pull request
