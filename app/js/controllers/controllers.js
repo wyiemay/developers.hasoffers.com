@@ -175,30 +175,28 @@
            * the user on the form.
            */
           $scope.updateApiCall = function() {
-              // $scope.apiCall = 'http://api.hasoffers.com/v3/' +
-              //     $scope.displayedMethod.controllerName +
-              //     '.json?Method=' + $scope.displayedMethod.methodName;
+              $scope.apiCall = 'http://api.hasoffers.com/v3/' +
+                  $scope.displayedMethod.controllerName +
+                  '.json?Method=' + $scope.displayedMethod.methodName;
               
-              $scope.apiCall = 'http://api.v2.hasoffers.com/v3/Affiliate_ApiKey.json?affiliate_user_id=184&is_dismissed=0&limit=999999&Method=getUserApiKey&NetworkId=v2&SessionToken=djI6YWZmaWxpYXRlX3VzZXI6MTg0OjE6ODU1NGQzMWJmNzlkNWJhYzEwOTU0OWM5N2Y1ZjYwZGZiOGE4ZGI4ZmFjZTVjMTlkZDIyMTQwYTRkNmJkOTdhNg';
+              //$scope.apiCall = 'http://api.v2.hasoffers.com/v3/Affiliate_ApiKey.json?affiliate_user_id=184&is_dismissed=0&limit=999999&Method=getUserApiKey&NetworkId=v2&SessionToken=djI6YWZmaWxpYXRlX3VzZXI6MTg0OjE6ODU1NGQzMWJmNzlkNWJhYzEwOTU0OWM5N2Y1ZjYwZGZiOGE4ZGI4ZmFjZTVjMTlkZDIyMTQwYTRkNmJkOTdhNg';
 
+              if($scope.category == 'affiliate') {
 
+                if ($scope.displayedMethod.affiliateKey != null) {
+                    $scope.apiCall += '&AffiliateKey=' + $scope.displayedMethod.affiliateKey;
+                }
 
-              // if($scope.category == 'affiliate') {
+              } else { // else assumes scope.category == 'brand'
 
-              //   if ($scope.displayedMethod.affiliateKey != null) {
-              //       $scope.apiCall += '&AffiliateKey=' + $scope.displayedMethod.affiliateKey;
-              //   }
+                if ($scope.displayedMethod.networkToken != null) {
+                    $scope.apiCall += '&NetworkToken=' + $scope.displayedMethod.networkToken;
+                }
 
-              // } else { // else assumes scope.category == 'brand'
-
-              //   if ($scope.displayedMethod.networkToken != null) {
-              //       $scope.apiCall += '&NetworkToken=' + $scope.displayedMethod.networkToken;
-              //   }
-
-              //   if ($scope.displayedMethod.networkId != null) {
-              //       $scope.apiCall += '&NetworkId=' + $scope.displayedMethod.networkId;
-              //   }
-              // }
+                if ($scope.displayedMethod.networkId != null) {
+                    $scope.apiCall += '&NetworkId=' + $scope.displayedMethod.networkId;
+                }
+              }
 
               angular.forEach($scope.apiParams, function(param) {
                   var fieldType = param.value.name;
