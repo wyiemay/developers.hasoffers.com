@@ -10,22 +10,29 @@
      * @param {ng.$routeProvider} $routeProvider
      */
     docModule.config(function($routeProvider) {
-        $routeProvider.when('/',
+        $routeProvider.when('/:category',
                 {templateUrl: 'welcome.html'}
             )
-            .when('/controller/:controllerName',
+            .when('/:category/controller/:controllerName',
                 {controller: ControllerListCtrl, templateUrl: 'controllerList.html'}
             )
-            .when('/controller/:controllerName/method/:methodName',
+            .when('/:category/controller/:controllerName/method/:methodName',
                 {controller: MethodViewCtrl, templateUrl: 'details.html'}
             )
-            .otherwise({redirectTo: '/'});
+            .otherwise({redirectTo: '/brand'});
+    });
+
+
+    docModule.run(function($rootScope, $route){
+        $rootScope.$on('$routeChangeSuccess', function(){
+            $rootScope.category = $route.current.params.category;
+        });
     });
 
     /**
      * Utility service
      */
-    docModule.factory('Util', function($http) {
+    docModule.factory('Util', function($http, $rootScope) {
         // Public methods:
         return {
             /**
@@ -34,7 +41,10 @@
              * @return {ng.$HttpPromise}  A promise for the get request.
              */
             getExternalDoc: function() {
-                return $http.get('resource/External_doc.json');
+                // else case assumes category == 'brand'
+                var externalDoc = ($rootScope.category == 'affiliate') 
+                    ? 'resource/External_doc.json' : 'resource/External_doc.json';
+                return $http.get(externalDoc);
             },
 
             /**
@@ -43,7 +53,10 @@
              * @return {ng.$HttpPromise}  A promise for the get request.
              */
             getModelDoc: function() {
-                return $http.get('resource/Model_doc.json');
+                // else case assumes category == 'brand'
+                var externalDoc = ($rootScope.category == 'affiliate') 
+                    ? 'resource/Model_doc.json' : 'resource/Model_doc.json';
+                return $http.get(externalDoc);
             },
 
             /**
@@ -107,6 +120,19 @@
              *                                           for the method.
              */
             buildApiConstructor: function(method) {
+                
+                // remove 'contain' and 'fields' if viewing affiliate api
+                if($rootScope.category == 'affiliate') {
+                    
+                    var filteredArr = [];
+                    angular.forEach(method.params, function(param) {
+                        if(param.name != 'contain' && param.name != 'fields') {
+                            filteredArr.push(param);
+                        }
+                    });
+                    method.params = filteredArr;
+                }
+
                 var paramObjects = {
                     filters: {
                         template: 'partials/filtersParam.html',

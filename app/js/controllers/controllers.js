@@ -22,9 +22,10 @@
      * Controller for a list of sidebar with controllers and methods.
      *
      * @param {Object}                     $scope  Angular scope.
+     * @param {ng.$route}                  $route  Angular $route service.
      * @param {Object.<string, Function>}  Util    Util service.
      */
-    window.SideBarController = function($scope, Util) {
+    window.SideBarController = function($scope, $route, Util) {
         Util.getExternalDoc().success(function(controllers) {
             $scope.ctrlrs = Util.aggregateByController(controllers);
             $scope.searchQuery = '';
@@ -78,6 +79,7 @@
                 Util.getModelDoc().success(function(model) {
                     $scope.displayedMethod = Util.bindFields(model, displayedMethod);
                     $scope.apiParams = Util.buildApiConstructor($scope.displayedMethod);
+
                     // default to user info
                     $scope.displayedMethod.networkToken = UserInfo.getProperty('NetworkToken');
                     $scope.displayedMethod.networkId = UserInfo.getProperty('NetworkId');
@@ -129,21 +131,35 @@
            * Executes the API call that the user has set up.
            */
           $scope.runApiCall = function() {
-              if ($scope.displayedMethod.networkToken == null) {
-                  $scope.apiResponse = 'Please provide Network Token';
-                  return;
+
+              if($rootScope.category == 'affiliate') {
+                
+                if ($scope.displayedMethod.affiliateKey == null) {
+                    $scope.apiResponse = 'Please provide an Affiliate Key';
+                    return;
+                }
+
+                UserInfo.setProperty('AffiliateKey', $scope.displayedMethod.affiliateKey);
+
+
+              } else { // else case currently assumes $rootScope.category == 'brand'
+
+                if ($scope.displayedMethod.networkToken == null) {
+                    $scope.apiResponse = 'Please provide Network Token';
+                    return;
+                }
+
+                // update user info
+                UserInfo.setProperty('NetworkToken', $scope.displayedMethod.networkToken);
+
+                if ($scope.displayedMethod.networkId == null) {
+                    $scope.apiResponse = 'Please provide Network Id';
+                    return;
+                }
+
+                // update user info
+                UserInfo.setProperty('NetworkId', $scope.displayedMethod.networkId);
               }
-
-              // update user info
-              UserInfo.setProperty('NetworkToken', $scope.displayedMethod.networkToken);
-
-              if ($scope.displayedMethod.networkId == null) {
-                  $scope.apiResponse = 'Please provide Network Id';
-                  return;
-              }
-
-              // update user info
-              UserInfo.setProperty('NetworkId', $scope.displayedMethod.networkId);
 
               $http.jsonp($scope.apiCall.replace('json', 'jsonp') + '&callback=JSON_CALLBACK')
                   .success(function(data) {

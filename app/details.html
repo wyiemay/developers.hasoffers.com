@@ -1,7 +1,7 @@
 <ul class="breadcrumb">
     <li>
         <span>
-            <a href="#/">API Reference</a>
+            <a href="#/{{category}}">API Reference</a>
         </span>
 
         <span class="divider">/</span>
@@ -9,7 +9,7 @@
 
     <li>
         <span>
-            <a href="#/controller/{{displayedMethod.controllerName}}">
+            <a href="#/{{category}}/controller/{{displayedMethod.controllerName}}">
                 {{displayedMethod.controllerName}}
             </a>
         </span>
@@ -40,6 +40,6 @@
     <dt>Return Description</dt>
     <dd>{{displayedMethod.returnDescription}}</dd>
 
-    <ng-include src="'partials/contain.html'"></ng-include>
+    <ng-include ng-show="category != 'affiliate'" src="'partials/contain.html'"></ng-include>
     <ng-include src="'partials/api.html'"></ng-include>
 </dl>

@@ -18,13 +18,13 @@ module.exports = function(grunt) {
       },
       src: {
         files: [
-          'app/js/**/*.js', 
+          'app/js/**/*.js',
           'app/css/**/*.css',
           'app/**/*.html'
         ],
         options: {
           nospawn: true,
-          livereload: 1337
+          livereload: true
         }
       }
     }
