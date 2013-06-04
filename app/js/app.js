@@ -24,7 +24,8 @@
 
 
     docModule.run(function($rootScope, $route){
-        $rootScope.$on('$routeChangeSuccess', function(){
+        $rootScope.$on('$routeChangeSuccess', function() {
+            // set category
             $rootScope.category = $route.current.params.category;
         });
     });

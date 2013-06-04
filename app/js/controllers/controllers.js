@@ -22,10 +22,9 @@
      * Controller for a list of sidebar with controllers and methods.
      *
      * @param {Object}                     $scope  Angular scope.
-     * @param {ng.$route}                  $route  Angular $route service.
      * @param {Object.<string, Function>}  Util    Util service.
      */
-    window.SideBarController = function($scope, $route, Util) {
+    window.SideBarController = function($scope, Util) {
         Util.getExternalDoc().success(function(controllers) {
             $scope.ctrlrs = Util.aggregateByController(controllers);
             $scope.searchQuery = '';
@@ -83,6 +82,7 @@
                     // default to user info
                     $scope.displayedMethod.networkToken = UserInfo.getProperty('NetworkToken');
                     $scope.displayedMethod.networkId = UserInfo.getProperty('NetworkId');
+                    $scope.displayedMethod.affiliateKey = UserInfo.getProperty('AffiliateKey');
                     $scope.updateApiCall();
                 }); // get model doc
             } // display ctrl not null
@@ -132,7 +132,7 @@
            */
           $scope.runApiCall = function() {
 
-              if($rootScope.category == 'affiliate') {
+              if($scope.category == 'affiliate') {
                 
                 if ($scope.displayedMethod.affiliateKey == null) {
                     $scope.apiResponse = 'Please provide an Affiliate Key';
@@ -175,17 +175,30 @@
            * the user on the form.
            */
           $scope.updateApiCall = function() {
-              $scope.apiCall = 'http://api.hasoffers.com/v3/' +
-                  $scope.displayedMethod.controllerName +
-                  '.json?Method=' + $scope.displayedMethod.methodName;
+              // $scope.apiCall = 'http://api.hasoffers.com/v3/' +
+              //     $scope.displayedMethod.controllerName +
+              //     '.json?Method=' + $scope.displayedMethod.methodName;
+              
+              $scope.apiCall = 'http://api.v2.hasoffers.com/v3/Affiliate_ApiKey.json?affiliate_user_id=184&is_dismissed=0&limit=999999&Method=getUserApiKey&NetworkId=v2&SessionToken=djI6YWZmaWxpYXRlX3VzZXI6MTg0OjE6ODU1NGQzMWJmNzlkNWJhYzEwOTU0OWM5N2Y1ZjYwZGZiOGE4ZGI4ZmFjZTVjMTlkZDIyMTQwYTRkNmJkOTdhNg';
 
-              if ($scope.displayedMethod.networkToken != null) {
-                  $scope.apiCall += '&NetworkToken=' + $scope.displayedMethod.networkToken;
-              }
 
-              if ($scope.displayedMethod.networkId != null) {
-                  $scope.apiCall += '&NetworkId=' + $scope.displayedMethod.networkId;
-              }
+
+              // if($scope.category == 'affiliate') {
+
+              //   if ($scope.displayedMethod.affiliateKey != null) {
+              //       $scope.apiCall += '&AffiliateKey=' + $scope.displayedMethod.affiliateKey;
+              //   }
+
+              // } else { // else assumes scope.category == 'brand'
+
+              //   if ($scope.displayedMethod.networkToken != null) {
+              //       $scope.apiCall += '&NetworkToken=' + $scope.displayedMethod.networkToken;
+              //   }
+
+              //   if ($scope.displayedMethod.networkId != null) {
+              //       $scope.apiCall += '&NetworkId=' + $scope.displayedMethod.networkId;
+              //   }
+              // }
 
               angular.forEach($scope.apiParams, function(param) {
                   var fieldType = param.value.name;

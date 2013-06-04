@@ -92,6 +92,21 @@ body {
 .input-append *:nth-child(2) {
     border-radius: 0;
 }
+
+.sidebar-wrap {
+  background: #f5f5f5;
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.sidebar-wrap .btn-group {
+  margin: 0 0 20px;
+}
+
+.sidebar-wrap .btn {
+  padding: 6px;
+}
+ 
 .sidebar-nav-fixed {
     background-position:fixed;
     position:absolute;
