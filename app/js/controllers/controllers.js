@@ -34,7 +34,7 @@
                 $scope.isFiltering = ($scope.searchQuery.length !== 0);
             });
         });
-      })
+      });
     };
 
     /**
@@ -133,23 +133,20 @@
            */
           $scope.runApiCall = function() {
 
-              if($scope.viewCategory == 'affiliate') {
-                
+              if ($scope.apiCategory === $scope.apiCategories.affiliate.shortName) {
                 if ($scope.displayedMethod.affiliateKey == null) {
                     $scope.apiResponse = 'Please provide an Affiliate Key';
                     return;
                 }
-
+                //update user info
                 UserInfo.setProperty('AffiliateKey', $scope.displayedMethod.affiliateKey);
+              }
 
-
-              } else { // else case currently assumes $rootScope.category == 'brand'
-
+              if ($scope.apiCategory === $scope.apiCategories.brand.shortName) {
                 if ($scope.displayedMethod.networkToken == null) {
                     $scope.apiResponse = 'Please provide Network Token';
                     return;
                 }
-
                 // update user info
                 UserInfo.setProperty('NetworkToken', $scope.displayedMethod.networkToken);
               }
@@ -158,16 +155,19 @@
                   $scope.apiResponse = 'Please provide Network Id';
                   return;
               }
-
-                // update user info
-                UserInfo.setProperty('NetworkId', $scope.displayedMethod.networkId);
-
+              // update user info
+              UserInfo.setProperty('NetworkId', $scope.displayedMethod.networkId);
+              $scope.apiError = false;
+              $scope.responseLoading = true;
+              $scope.apiResponse = '';
               $http.jsonp($scope.apiCall.replace('json', 'jsonp') + '&callback=JSON_CALLBACK')
                   .success(function(data) {
                       $scope.apiResponse = angular.toJson(data, true);
+                      $scope.responseLoading = false;
                   })
                   .error(function(data) {
-                      $scope.apiResponse = angular.toJson(data, true);
+                      $scope.apiResponse = angular.toJson(data, true) || 'an unexpected error occured';
+                      $scope.responseLoading = false;
                   });
           };
 
@@ -179,16 +179,15 @@
               $scope.apiCall = 'http://api.hasoffers.com/v3/' +
                   $scope.displayedMethod.controllerName +
                   '.json?Method=' + $scope.displayedMethod.methodName;
-             
-              // set keys depending on viewCategory
-              if($scope.viewCategory == 'affiliate') {
 
+              // set keys depending on viewCategory
+              if ($scope.apiCategory === $scope.apiCategories.affiliate.shortName) {
                 if ($scope.displayedMethod.affiliateKey != null) {
                     $scope.apiCall += '&api_key=' + $scope.displayedMethod.affiliateKey;
                 }
-              } else {
-              // else assumes scope.category == 'brand'
+              }
 
+              if ($scope.apiCategory === $scope.apiCategories.brand.shortName){
                 if ($scope.displayedMethod.networkToken != null) {
                     $scope.apiCall += '&NetworkToken=' + $scope.displayedMethod.networkToken;
                 }

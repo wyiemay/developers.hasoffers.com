@@ -136,3 +136,7 @@ body {
 {
     margin-bottom:5px;
 }
+
+.loading:after {
+  content: 'Loading...';
+}

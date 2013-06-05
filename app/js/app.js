@@ -2,6 +2,16 @@
     'use strict';
 
     var docModule = angular.module('Docs', ['ui.bootstrap.accordion']);
+    var apiCategories = {
+        brand: {
+          shortName: 'brand',
+          longName: 'Brand API'
+        },
+        affiliate: {
+            shortName: 'affiliate',
+            longName: 'Affiliate API'
+        }
+    };
 
 
     /**
@@ -29,13 +39,14 @@
      * @param {ng.$routeProvider} $routeProvider
      * @param {ng.$route} $route
      */
-    docModule.run(function($rootScope, $route){
+    docModule.run(function($rootScope, $route) {
+        $rootScope.apiCategories = apiCategories;
         $rootScope.$on('$routeChangeSuccess', function() {
-            
+
             var pVal = $route.current.params.apiCategory;
 
             // if category changes broadcast event
-            if( $rootScope.apiCategory != pVal) {
+            if ($rootScope.apiCategory !== pVal) {
                 $rootScope.$broadcast('apiCategoryChange');
             }
 
@@ -56,9 +67,8 @@
              * @return {ng.$HttpPromise}  A promise for the get request.
              */
             getExternalDoc: function() {
-                // else case assumes category == 'brand'
-                var externalDoc = ($rootScope.apiCategory == 'affiliate') 
-                    ? 'resource/External_doc.json' : 'resource/External_doc.json';
+                var externalDoc = ($rootScope.apiCategory === $rootScope.apiCategories.affiliate.shortName) ?
+                    'resource/External_doc.json' : 'resource/External_doc.json';
                 return $http.get(externalDoc);
             },
 
@@ -69,8 +79,8 @@
              */
             getModelDoc: function() {
                 // else case assumes category == 'brand'
-                var externalDoc = ($rootScope.apiCategory == 'affiliate') 
-                    ? 'resource/Model_doc.json' : 'resource/Model_doc.json';
+                var externalDoc = ($rootScope.apiCategory === $rootScope.apiCategories.affiliate.shortName) ?
+                    'resource/Model_doc.json' : 'resource/Model_doc.json';
                 return $http.get(externalDoc);
             },
 
@@ -135,13 +145,13 @@
              *                                           for the method.
              */
             buildApiConstructor: function(method) {
-                
+
                 // remove 'contain' and 'fields' if viewing affiliate api
-                if($rootScope.apiCategory == 'affiliate') {
-                    
+                if ($rootScope.apiCategory === $rootScope.apiCategories.affiliate.shortName) {
+
                     var filteredArr = [];
                     angular.forEach(method.params, function(param) {
-                        if(param.name != 'contain' && param.name != 'fields') {
+                        if(param.name !== 'contain' && param.name !== 'fields') {
                             filteredArr.push(param);
                         }
                     });

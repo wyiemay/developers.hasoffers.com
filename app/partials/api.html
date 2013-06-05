@@ -65,7 +65,7 @@
 
 <dt>API Response</dt>
 <dd>
-    <pre ng-bind="apiResponse"></pre>
+    <pre ng-bind="apiResponse" ng-class="{'alert error': apiError, 'loading' : responseLoading}"></pre>
 </dd>
 
 <div ng-controller="DisqusController" id="disqus_thread"></div>
