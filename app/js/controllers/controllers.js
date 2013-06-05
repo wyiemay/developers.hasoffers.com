@@ -176,6 +176,7 @@
            * the user on the form.
            */
           $scope.updateApiCall = function() {
+              // testURL: http://demo.api.dev.dh-ryan01-dev.sea1.office.priv/Api/Affiliate_
               $scope.apiCall = 'http://api.hasoffers.com/v3/' +
                   $scope.displayedMethod.controllerName +
                   '.json?Method=' + $scope.displayedMethod.methodName;

@@ -28,7 +28,7 @@
             .when('/:apiCategory/controller/:controllerName',
                 {controller: ControllerListCtrl, templateUrl: 'controllerList.html'}
             )
-            .when('/:apiCategory/controller/:controllerName/method/:methodName',
+            .when('/:apiCategory/controller/:controllerName/method/:methodName'
                 {controller: MethodViewCtrl, templateUrl: 'details.html'}
             )
             .otherwise({redirectTo: '/' + defaultApiCategory.shortName});
@@ -71,12 +71,15 @@
 
             // only broadcast or update apiCategory if is valid
             if (validCategory(current.params.apiCategory)) {
-                if ($rootScope.apiCategory !== current.params.apiCategory) {
-                    $rootScope.$broadcast('apiCategoryChange');
-                }
 
+                var broadcastChange = $rootScope.apiCategory !== current.params.apiCategory
+                
                 // set current category
                 $rootScope.apiCategory = current.params.apiCategory;
+
+                if (broadcastChange) {
+                    $rootScope.$broadcast('apiCategoryChange');
+                }
             }
         });
     });
@@ -94,7 +97,9 @@
              */
             getExternalDoc: function() {
                 var externalDoc = ($rootScope.apiCategory === $rootScope.apiCategories.affiliate.shortName) ?
-                    'resource/External_doc.json' : 'resource/External_doc.json';
+                    'resource/Affiliate_doc.json' : 'resource/External_doc.json';
+
+                console.log(externalDoc);
                 return $http.get(externalDoc);
             },
 
