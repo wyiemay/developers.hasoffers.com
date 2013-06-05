@@ -69,7 +69,7 @@
         $rootScope.$on('$routeChangeSuccess', function(e, current, previous) {
 
             // only broadcast or update apiCategory if is valid
-            if (validCategory(current.params.apiCategory)){
+            if (validCategory(current.params.apiCategory)) {
                 if ($rootScope.apiCategory !== current.params.apiCategory) {
                     $rootScope.$broadcast('apiCategoryChange');
                 }

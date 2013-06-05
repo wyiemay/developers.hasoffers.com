@@ -1,7 +1,7 @@
 <dt>API Builder:</dt>
 <dd>
 
-        <div class="input-prepend network-token" ng-show="apiCategory == 'brand'">
+        <div class="input-prepend network-token" ng-show="apiCategory == apiCategories.brand.shortName">
             <span class="add-on">
                 <abbr title="Is Required">NetworkToken</abbr>
             </span>
@@ -11,7 +11,7 @@
                    ng-model="displayedMethod.networkToken"
                    ng-change="updateApiCall()">
         </div>
-        <div class="input-prepend affiliate-key" ng-show="apiCategory == 'affiliate'">
+        <div class="input-prepend affiliate-key" ng-show="apiCategory == apiCategories.affiliate.shortName">
             <span class="add-on">
                 <abbr title="Is Required">AffiliateKey</abbr>
             </span>
