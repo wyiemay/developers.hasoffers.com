@@ -40,6 +40,6 @@
     <dt>Return Description</dt>
     <dd>{{displayedMethod.returnDescription}}</dd>
 
-    <ng-include ng-show="category != 'affiliate'" src="'partials/contain.html'"></ng-include>
+    <ng-include ng-show="apiCategory != apiCategories.affiliate.shortName" src="'partials/contain.html'"></ng-include>
     <ng-include src="'partials/api.html'"></ng-include>
 </dl>
