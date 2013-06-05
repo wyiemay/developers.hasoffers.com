@@ -98,8 +98,6 @@
             getExternalDoc: function() {
                 var externalDoc = ($rootScope.apiCategory === $rootScope.apiCategories.affiliate.shortName) ?
                     'resource/Affiliate_doc.json' : 'resource/External_doc.json';
-
-                console.log(externalDoc);
                 return $http.get(externalDoc);
             },
 
