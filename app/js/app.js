@@ -107,7 +107,6 @@
              * @return {ng.$HttpPromise}  A promise for the get request.
              */
             getModelDoc: function() {
-                // else case assumes category == 'brand'
                 var externalDoc = ($rootScope.apiCategory === $rootScope.apiCategories.affiliate.shortName) ?
                     'resource/Model_doc.json' : 'resource/Model_doc.json';
                 return $http.get(externalDoc);
