@@ -12,6 +12,8 @@
             longName: 'Affiliate API'
         }
     };
+    var defaultApiCategory = apiCategories.brand;
+
 
 
     /**
@@ -29,7 +31,7 @@
             .when('/:apiCategory/controller/:controllerName/method/:methodName',
                 {controller: MethodViewCtrl, templateUrl: 'details.html'}
             )
-            .otherwise({redirectTo: '/brand'});
+            .otherwise({redirectTo: '/' + defaultApiCategory.shortName});
     });
 
 
@@ -39,20 +41,42 @@
      * @param {ng.$routeProvider} $routeProvider
      * @param {ng.$route} $route
      */
-    docModule.run(function($rootScope, $route) {
+    docModule.run(function($rootScope, $route, $location) {
+
+        var validCategory = function(val) {
+            var valFound = false;
+
+            // check to see if apiCategory param matches a apiCategory from object
+            angular.forEach($rootScope.apiCategories, function(category) {
+                if (category.shortName == val) {
+                    valFound = true;
+                    return false;
+                }
+            });
+
+            return valFound;
+        }
+
         $rootScope.apiCategories = apiCategories;
-        $rootScope.$on('$routeChangeSuccess', function() {
+        $rootScope.$on('$routeChangeStart', function(next, current) {
 
-            var pVal = $route.current.params.apiCategory;
-
-            // if category changes broadcast event
-            if ($rootScope.apiCategory !== pVal) {
-                $rootScope.$broadcast('apiCategoryChange');
+            // redirect if unacceptaple apiCategory
+            if (!validCategory(current.params.apiCategory)) {
+                $location.path('/' + defaultApiCategory.shortName);
             }
-
-            // set category
-            $rootScope.apiCategory = pVal;
         });
+
+        $rootScope.$on('$routeChangeSuccess', function(e, current, previous) {
+
+            // only broadcast or update apiCategory if is valid
+            if (validCategory(current.params.apiCategory)){
+                if ($rootScope.apiCategory !== current.params.apiCategory) {
+                    $rootScope.$broadcast('apiCategoryChange');
+                }
+
+                $rootScope.apiCategory = current.params.apiCategory;
+            }
+        })
     });
 
     /**

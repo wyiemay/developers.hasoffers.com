@@ -1,9 +1,7 @@
 <div ng-controller="SideBarController">
     <div class="btn-group row-fluid">
-        <a href="#/brand" class="btn span6"
-           ng-class="{active: apiCategory == 'brand'}">Brand API</a>
-        <a href="#/affiliate"class="btn span6"
-           ng-class="{active: apiCategory == 'affiliate'}">Affiliate API</a>
+        <a ng-repeat="category in apiCategories" ng-class="{active: apiCategory == category.shortName}"
+           class="btn span6"  href="#/{{category.shortName}}">{{category.longName}}</a>
     </div>
     <input type="text"
        class="search-query span12"
