@@ -1,8 +1,7 @@
 <dt>API Builder:</dt>
 <dd>
 
-    <div ng-show="category == 'brand'">
-        <div class="input-prepend network-token">
+        <div class="input-prepend network-token" ng-show="apiCategory == 'brand'">
             <span class="add-on">
                 <abbr title="Is Required">NetworkToken</abbr>
             </span>
@@ -10,6 +9,16 @@
                    class="input-large"
                    placeholder="NETaaaaBBBBcccc123456789"
                    ng-model="displayedMethod.networkToken"
+                   ng-change="updateApiCall()">
+        </div>
+        <div class="input-prepend affiliate-key" ng-show="apiCategory == 'affiliate'">
+            <span class="add-on">
+                <abbr title="Is Required">AffiliateKey</abbr>
+            </span>
+            <input type="text"
+                   class="input-large"
+                   placeholder="AFFaaaaBBBBcccc123456789"
+                   ng-model="displayedMethod.affiliateKey"
                    ng-change="updateApiCall()">
         </div>
         <div class="input-prepend network-id">
@@ -22,19 +31,6 @@
                    ng-model="displayedMethod.networkId"
                    ng-change="updateApiCall()">
         </div>
-    </div>
-    <div ng-show="category == 'affiliate'">
-        <div class="input-prepend">
-            <span class="add-on">
-                <abbr title="Is Required">AffiliateKey</abbr>
-            </span>
-            <input type="text"
-                   class="input-large"
-                   placeholder="NETaaaaBBBBcccc123456789"
-                   ng-model="displayedMethod.affiliateKey"
-                   ng-change="updateApiCall()">
-        </div>
-    </div>
 
     <table class="table table-bordered">
         <tbody>

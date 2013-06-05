@@ -1,7 +1,7 @@
 <ul class="breadcrumb">
     <li>
         <span>
-            <a href="#/{{category}}">API Reference</a>
+            <a href="#/{{apiCategory}}">API Reference</a>
         </span>
 
         <span class="divider">/</span>
@@ -19,7 +19,7 @@
             <tbody>
                 <tr ng-repeat="method in controllerList">
                     <td>
-                        <a href="#/{{category}}/controller/{{method.controllerName}}/method/{{method.methodName}}">
+                        <a href="#/{{apiCategory}}/controller/{{method.controllerName}}/method/{{method.methodName}}">
                             {{method.methodName}}
                         </a>
                     </td>

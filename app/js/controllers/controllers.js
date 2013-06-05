@@ -25,6 +25,7 @@
      * @param {Object.<string, Function>}  Util    Util service.
      */
     window.SideBarController = function($scope, Util) {
+      $scope.$on('apiCategoryChange', function() {
         Util.getExternalDoc().success(function(controllers) {
             $scope.ctrlrs = Util.aggregateByController(controllers);
             $scope.searchQuery = '';
@@ -33,7 +34,7 @@
                 $scope.isFiltering = ($scope.searchQuery.length !== 0);
             });
         });
-
+      })
     };
 
     /**
@@ -132,7 +133,7 @@
            */
           $scope.runApiCall = function() {
 
-              if($scope.category == 'affiliate') {
+              if($scope.viewCategory == 'affiliate') {
                 
                 if ($scope.displayedMethod.affiliateKey == null) {
                     $scope.apiResponse = 'Please provide an Affiliate Key';
@@ -151,15 +152,15 @@
 
                 // update user info
                 UserInfo.setProperty('NetworkToken', $scope.displayedMethod.networkToken);
+              }
 
-                if ($scope.displayedMethod.networkId == null) {
-                    $scope.apiResponse = 'Please provide Network Id';
-                    return;
-                }
+              if ($scope.displayedMethod.networkId == null) {
+                  $scope.apiResponse = 'Please provide Network Id';
+                  return;
+              }
 
                 // update user info
                 UserInfo.setProperty('NetworkId', $scope.displayedMethod.networkId);
-              }
 
               $http.jsonp($scope.apiCall.replace('json', 'jsonp') + '&callback=JSON_CALLBACK')
                   .success(function(data) {
@@ -178,24 +179,23 @@
               $scope.apiCall = 'http://api.hasoffers.com/v3/' +
                   $scope.displayedMethod.controllerName +
                   '.json?Method=' + $scope.displayedMethod.methodName;
-              
-              //$scope.apiCall = 'http://api.v2.hasoffers.com/v3/Affiliate_ApiKey.json?affiliate_user_id=184&is_dismissed=0&limit=999999&Method=getUserApiKey&NetworkId=v2&SessionToken=djI6YWZmaWxpYXRlX3VzZXI6MTg0OjE6ODU1NGQzMWJmNzlkNWJhYzEwOTU0OWM5N2Y1ZjYwZGZiOGE4ZGI4ZmFjZTVjMTlkZDIyMTQwYTRkNmJkOTdhNg';
-
-              if($scope.category == 'affiliate') {
+             
+              // set keys depending on viewCategory
+              if($scope.viewCategory == 'affiliate') {
 
                 if ($scope.displayedMethod.affiliateKey != null) {
-                    $scope.apiCall += '&AffiliateKey=' + $scope.displayedMethod.affiliateKey;
+                    $scope.apiCall += '&api_key=' + $scope.displayedMethod.affiliateKey;
                 }
-
-              } else { // else assumes scope.category == 'brand'
+              } else {
+              // else assumes scope.category == 'brand'
 
                 if ($scope.displayedMethod.networkToken != null) {
                     $scope.apiCall += '&NetworkToken=' + $scope.displayedMethod.networkToken;
                 }
+              }
 
-                if ($scope.displayedMethod.networkId != null) {
-                    $scope.apiCall += '&NetworkId=' + $scope.displayedMethod.networkId;
-                }
+              if ($scope.displayedMethod.networkId != null) {
+                $scope.apiCall += '&NetworkId=' + $scope.displayedMethod.networkId;
               }
 
               angular.forEach($scope.apiParams, function(param) {

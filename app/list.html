@@ -1,9 +1,9 @@
 <div ng-controller="SideBarController">
     <div class="btn-group row-fluid">
         <a href="#/brand" class="btn span6"
-           ng-class="{active: category == 'brand'}">Brand API</a>
+           ng-class="{active: apiCategory == 'brand'}">Brand API</a>
         <a href="#/affiliate"class="btn span6"
-           ng-class="{active: category == 'affiliate'}">Affiliate API</a>
+           ng-class="{active: apiCategory == 'affiliate'}">Affiliate API</a>
     </div>
     <input type="text"
        class="search-query span12"
@@ -12,7 +12,7 @@
     <accordion class="side-bar" close-others="false" ng-hide="isFiltering">
         <accordion-group isOpen="false" heading="{{controller.controllerName}} ({{controller.methods.length}})" ng-repeat="controller in ctrlrs | hasMethodFilter: searchQuery">
             <p ng-repeat="method in controller.methods | filter: searchQuery | orderBy: 'toString()' ">
-                <a href="#/{{category}}/controller/{{controller.controllerName}}/method/{{method}}">{{method}}</a>
+                <a href="#/{{apiCategory}}/controller/{{controller.controllerName}}/method/{{method}}">{{method}}</a>
             </p>
         </accordion-group>
     </accordion>
@@ -24,7 +24,7 @@
             <li class="body">
                 <div>
                     <p ng-repeat="method in controller.methods | filter: searchQuery | orderBy: 'toString()' ">
-                        <a href="#/{{category}}/controller/{{controller.controllerName}}/method/{{method}}">{{method}}</a>
+                        <a href="#/{{apiCategory}}/controller/{{controller.controllerName}}/method/{{method}}">{{method}}</a>
                     </p>
                 </div>
             </li>
