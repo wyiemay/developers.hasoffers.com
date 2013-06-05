@@ -4,8 +4,8 @@
     var docModule = angular.module('Docs', ['ui.bootstrap.accordion']);
     var apiCategories = {
         brand: {
-          shortName: 'brand',
-          longName: 'Brand API'
+            shortName: 'brand',
+            longName: 'Brand API'
         },
         affiliate: {
             shortName: 'affiliate',
@@ -40,19 +40,19 @@
      *
      * @param {ng.$routeProvider} $routeProvider
      * @param {ng.$route} $route
+     * @param {ng.$location} $location
      */
     docModule.run(function($rootScope, $route, $location) {
 
         $rootScope.apiCategories = apiCategories;
 
-        var validCategory = function(val) {
+        var validCategory = function(category) {
             var valFound = false;
 
             // check to see if val matches an apiCategory from object
-            angular.forEach($rootScope.apiCategories, function(category) {
-                if (category.shortName === val) {
+            angular.forEach($rootScope.apiCategories, function(categoryObject) {
+                if (categoryObject.shortName === category) {
                     valFound = true;
-                    return false;
                 }
             });
 
@@ -98,7 +98,7 @@
             getExternalDoc: function() {
                 var externalDoc = ($rootScope.apiCategory === $rootScope.apiCategories.affiliate.shortName) ?
                     'resource/Affiliate_doc.json' : 'resource/External_doc.json';
-                return $http.get(externalDoc);
+                return $http.get(externalDoc, {cache: true});
             },
 
             /**
@@ -109,7 +109,7 @@
             getModelDoc: function() {
                 var externalDoc = ($rootScope.apiCategory === $rootScope.apiCategories.affiliate.shortName) ?
                     'resource/Model_doc.json' : 'resource/Model_doc.json';
-                return $http.get(externalDoc);
+                return $http.get(externalDoc, {cache: true});
             },
 
             /**

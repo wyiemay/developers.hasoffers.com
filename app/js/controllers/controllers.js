@@ -27,7 +27,7 @@
     window.SideBarController = function($scope, Util) {
       $scope.$on('apiCategoryChange', function() {
           Util.getExternalDoc().success(function(controllers) {
-              $scope.ctrlrs = Util.aggregateByController(controllers);
+              $scope.controllers = Util.aggregateByController(controllers);
               $scope.searchQuery = '';
               $scope.isFiltering = false;
               $scope.$watch('searchQuery', function() {
@@ -166,7 +166,7 @@
                         $scope.responseLoading = false;
                     })
                     .error(function(data) {
-                        $scope.apiResponse = angular.toJson(data, true) || 'an unexpected error occured';
+                        $scope.apiResponse = angular.toJson(data, true) || 'an unexpected error occurred';
                         $scope.responseLoading = false;
                     });
             };
