@@ -43,10 +43,12 @@
      */
     docModule.run(function($rootScope, $route, $location) {
 
+        $rootScope.apiCategories = apiCategories;
+
         var validCategory = function(val) {
             var valFound = false;
 
-            // check to see if apiCategory param matches a apiCategory from object
+            // check to see if val matches an apiCategory from object
             angular.forEach($rootScope.apiCategories, function(category) {
                 if (category.shortName === val) {
                     valFound = true;
@@ -57,7 +59,6 @@
             return valFound;
         };
 
-        $rootScope.apiCategories = apiCategories;
         $rootScope.$on('$routeChangeStart', function(next, current) {
 
             // redirect if unacceptaple apiCategory
@@ -74,6 +75,7 @@
                     $rootScope.$broadcast('apiCategoryChange');
                 }
 
+                // set current category
                 $rootScope.apiCategory = current.params.apiCategory;
             }
         });

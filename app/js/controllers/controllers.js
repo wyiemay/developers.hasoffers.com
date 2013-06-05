@@ -180,7 +180,7 @@
                   $scope.displayedMethod.controllerName +
                   '.json?Method=' + $scope.displayedMethod.methodName;
 
-              // set keys depending on viewCategory
+              // set keys depending on apiCategory
               if ($scope.apiCategory === $scope.apiCategories.affiliate.shortName) {
                 if ($scope.displayedMethod.affiliateKey != null) {
                     $scope.apiCall += '&api_key=' + $scope.displayedMethod.affiliateKey;
