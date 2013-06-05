@@ -28,7 +28,7 @@
             .when('/:apiCategory/controller/:controllerName',
                 {controller: ControllerListCtrl, templateUrl: 'controllerList.html'}
             )
-            .when('/:apiCategory/controller/:controllerName/method/:methodName'
+            .when('/:apiCategory/controller/:controllerName/method/:methodName',
                 {controller: MethodViewCtrl, templateUrl: 'details.html'}
             )
             .otherwise({redirectTo: '/' + defaultApiCategory.shortName});
@@ -72,7 +72,7 @@
             // only broadcast or update apiCategory if is valid
             if (validCategory(current.params.apiCategory)) {
 
-                var broadcastChange = $rootScope.apiCategory !== current.params.apiCategory
+                var broadcastChange = $rootScope.apiCategory !== current.params.apiCategory;
                 
                 // set current category
                 $rootScope.apiCategory = current.params.apiCategory;
