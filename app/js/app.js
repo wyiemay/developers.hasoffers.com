@@ -48,14 +48,14 @@
 
             // check to see if apiCategory param matches a apiCategory from object
             angular.forEach($rootScope.apiCategories, function(category) {
-                if (category.shortName == val) {
+                if (category.shortName === val) {
                     valFound = true;
                     return false;
                 }
             });
 
             return valFound;
-        }
+        };
 
         $rootScope.apiCategories = apiCategories;
         $rootScope.$on('$routeChangeStart', function(next, current) {
@@ -76,7 +76,7 @@
 
                 $rootScope.apiCategory = current.params.apiCategory;
             }
-        })
+        });
     });
 
     /**
