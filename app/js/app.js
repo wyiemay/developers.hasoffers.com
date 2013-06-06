@@ -38,7 +38,7 @@
     /**
      * Globals Setup
      *
-     * @param {ng.$routeProvider} $routeProvider
+     * @param {ng.$rootScope} $rootScope
      * @param {ng.$route} $route
      * @param {ng.$location} $location
      */
