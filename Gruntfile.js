@@ -5,19 +5,34 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
-      files: ['gruntfile.js', 'js/**/*.js', grunt.file.read('.jshintignore').trim().split('\n').map(function(s) { return '!' + s; })],
+      files: ['gruntfile.js', 'app/js/**/*.js', grunt.file.read('.jshintignore').trim().split('\n').map(function(s) { return '!' + s; })],
       options: {
         // options here to override JSHint defaults
         jshintrc: '.jshintrc'
       }
     },
     watch: {
-      files: ['<%= jshint.files %>'],
-      tasks: ['jshint']
+      test: {
+        files: ['<%= jshint.files %>'],
+        tasks: ['jshint']
+      },
+      src: {
+        files: [
+          'app/js/**/*.js',
+          'app/css/**/*.css',
+          'app/**/*.html'
+        ],
+        options: {
+          nospawn: true,
+          livereload: true
+        }
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-livereload');
 
   grunt.registerTask('successbaby', 'Success baby tell me it passed!', function() {
     grunt.task.requires('jshint');

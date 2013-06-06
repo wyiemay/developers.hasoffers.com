@@ -1,24 +1,28 @@
 <div ng-controller="SideBarController">
+    <div class="btn-group row-fluid">
+        <a ng-repeat="category in apiCategories" ng-class="{active: apiCategory == category.shortName}"
+           class="btn span6"  href="#/{{category.shortName}}">{{category.longName}}</a>
+    </div>
     <input type="text"
-       class="search-query"
+       class="search-query span12"
        ng-model="searchQuery"
        placeholder="Search">
     <accordion class="side-bar" close-others="false" ng-hide="isFiltering">
-        <accordion-group isOpen="false" heading="{{controller.controllerName}} ({{controller.methods.length}})" ng-repeat="controller in ctrlrs | hasMethodFilter: searchQuery">
+        <accordion-group isOpen="false" heading="{{controller.controllerName}} ({{controller.methods.length}})" ng-repeat="controller in controllers | hasMethodFilter: searchQuery">
             <p ng-repeat="method in controller.methods | filter: searchQuery | orderBy: 'toString()' ">
-                <a href="#/controller/{{controller.controllerName}}/method/{{method}}">{{method}}</a>
+                <a href="#/{{apiCategory}}/controller/{{controller.controllerName}}/method/{{method}}">{{method}}</a>
             </p>
         </accordion-group>
     </accordion>
     <div class="side-bar">
-        <ul ng-show="isFiltering" ng-repeat="controller in ctrlrs | hasMethodFilter: searchQuery">
+        <ul ng-show="isFiltering" ng-repeat="controller in controllers | hasMethodFilter: searchQuery">
             <li class="heading"  isOpen="false" >
                 <a>- {{controller.controllerName}} ({{(controller.methods | filter: searchQuery).length}})</a>
             </li>
             <li class="body">
                 <div>
                     <p ng-repeat="method in controller.methods | filter: searchQuery | orderBy: 'toString()' ">
-                        <a href="#/controller/{{controller.controllerName}}/method/{{method}}">{{method}}</a>
+                        <a href="#/{{apiCategory}}/controller/{{controller.controllerName}}/method/{{method}}">{{method}}</a>
                     </p>
                 </div>
             </li>

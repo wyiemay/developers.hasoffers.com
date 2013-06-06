@@ -2,6 +2,19 @@
     'use strict';
 
     var docModule = angular.module('Docs', ['ui.bootstrap.accordion']);
+    var apiCategories = {
+        brand: {
+            shortName: 'brand',
+            longName: 'Brand API'
+        },
+        affiliate: {
+            shortName: 'affiliate',
+            longName: 'Affiliate API'
+        }
+    };
+    var defaultApiCategory = apiCategories.brand;
+
+
 
     /**
      * Route configuration.
@@ -9,22 +22,72 @@
      * @param {ng.$routeProvider} $routeProvider
      */
     docModule.config(function($routeProvider) {
-        $routeProvider.when('/',
+        $routeProvider.when('/:apiCategory',
                 {templateUrl: 'welcome.html'}
             )
-            .when('/controller/:controllerName',
+            .when('/:apiCategory/controller/:controllerName',
                 {controller: ControllerListCtrl, templateUrl: 'controllerList.html'}
             )
-            .when('/controller/:controllerName/method/:methodName',
+            .when('/:apiCategory/controller/:controllerName/method/:methodName',
                 {controller: MethodViewCtrl, templateUrl: 'details.html'}
             )
-            .otherwise({redirectTo: '/'});
+            .otherwise({redirectTo: '/' + defaultApiCategory.shortName});
+    });
+
+
+    /**
+     * Globals Setup
+     *
+     * @param {ng.$rootScope} $rootScope
+     * @param {ng.$route} $route
+     * @param {ng.$location} $location
+     */
+    docModule.run(function($rootScope, $route, $location) {
+
+        $rootScope.apiCategories = apiCategories;
+
+        var validCategory = function(category) {
+            var valFound = false;
+
+            // check to see if val matches an apiCategory from object
+            angular.forEach($rootScope.apiCategories, function(categoryObject) {
+                if (categoryObject.shortName === category) {
+                    valFound = true;
+                }
+            });
+
+            return valFound;
+        };
+
+        $rootScope.$on('$routeChangeStart', function(next, current) {
+
+            // redirect if unacceptaple apiCategory
+            if (!validCategory(current.params.apiCategory)) {
+                $location.path('/' + defaultApiCategory.shortName);
+            }
+        });
+
+        $rootScope.$on('$routeChangeSuccess', function(e, current, previous) {
+
+            // only broadcast or update apiCategory if is valid
+            if (validCategory(current.params.apiCategory)) {
+
+                var broadcastChange = $rootScope.apiCategory !== current.params.apiCategory;
+                
+                // set current category
+                $rootScope.apiCategory = current.params.apiCategory;
+
+                if (broadcastChange) {
+                    $rootScope.$broadcast('apiCategoryChange');
+                }
+            }
+        });
     });
 
     /**
      * Utility service
      */
-    docModule.factory('Util', function($http) {
+    docModule.factory('Util', function($http, $rootScope) {
         // Public methods:
         return {
             /**
@@ -33,7 +96,9 @@
              * @return {ng.$HttpPromise}  A promise for the get request.
              */
             getExternalDoc: function() {
-                return $http.get('resource/External_doc.json');
+                var externalDoc = ($rootScope.apiCategory === $rootScope.apiCategories.affiliate.shortName) ?
+                    'resource/Affiliate_doc.json' : 'resource/External_doc.json';
+                return $http.get(externalDoc, {cache: true});
             },
 
             /**
@@ -42,7 +107,9 @@
              * @return {ng.$HttpPromise}  A promise for the get request.
              */
             getModelDoc: function() {
-                return $http.get('resource/Model_doc.json');
+                var externalDoc = ($rootScope.apiCategory === $rootScope.apiCategories.affiliate.shortName) ?
+                    'resource/Model_doc.json' : 'resource/Model_doc.json';
+                return $http.get(externalDoc, {cache: true});
             },
 
             /**
@@ -106,6 +173,19 @@
              *                                           for the method.
              */
             buildApiConstructor: function(method) {
+
+                // remove 'contain' and 'fields' if viewing affiliate api
+                if ($rootScope.apiCategory === $rootScope.apiCategories.affiliate.shortName) {
+
+                    var filteredArr = [];
+                    angular.forEach(method.params, function(param) {
+                        if(param.name !== 'contain' && param.name !== 'fields') {
+                            filteredArr.push(param);
+                        }
+                    });
+                    method.params = filteredArr;
+                }
+
                 var paramObjects = {
                     filters: {
                         template: 'partials/filtersParam.html',
