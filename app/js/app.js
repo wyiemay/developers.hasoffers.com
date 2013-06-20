@@ -23,7 +23,10 @@
      */
     docModule.config(function($routeProvider) {
         $routeProvider.when('/:apiCategory',
-                {templateUrl: 'welcome.html'}
+                {templateUrl: function(params) {
+                        return 'welcome-' + params.apiCategory + '.html';
+                    }
+                }
             )
             .when('/:apiCategory/controller/:controllerName',
                 {controller: ControllerListCtrl, templateUrl: 'controllerList.html'}
