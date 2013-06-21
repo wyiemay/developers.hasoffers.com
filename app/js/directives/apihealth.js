@@ -1,6 +1,6 @@
 angular.module('Docs').directive('apiHealth',function($http) {
    return {
-      restrict: 'A', // was E
+      restrict: 'A',
       controller: function HealthCheckCtrl($scope, $http) {
           var health_check_url = 'http://api.hasoffers.com/v3/Internal_HealthCheck.jsonp?Method=full&NetworkId=demo&callback=JSON_CALLBACK';
 
