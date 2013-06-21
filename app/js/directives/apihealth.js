@@ -10,7 +10,6 @@ angular.module('Docs').directive('apiHealth',function($http) {
                   $scope.apiSuccess = true;
                 }
             });
-      },
-      //templateUrl: 'partials/apihealth.html'
+      }
    };
 });
