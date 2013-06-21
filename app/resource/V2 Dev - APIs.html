@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<!-- saved from url=(0034)http://pubint.dev/#!/tools/api-key -->
+<html id="appBase" class="ng-scope" lang="en" ng-app="hasApp" ng-controller="Controllers.app"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title ng-bind-template="V2 Dev - APIs" class="ng-binding">V2 Dev - APIs</title>
+  <meta name="description" content="">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+      <meta http-equiv="cache-control" content="max-age=0">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
+    <meta http-equiv="pragma" content="no-cache">
+  
+  <link href="./V2 Dev - APIs_files/css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="http://pubint.dev/css/screen.css">
+  <link rel="stylesheet" href="http://pubint.dev/css/bugfixes.css">
+<style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak{display:none;}ng\:form{display:block;}</style></head>
+
+<body class="tools-apis" ng-class="bodyClass" mobile-header-hide="" cz-shortcut-listen="true">
+  <div class="partial-support-alert support-alert alert">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>Your Browser is not officially supported.</strong> 
+    Consider upgrading to one of our <a href="http://browsehappy.com/">supported browsers</a>
+  </div>
+  <div class="unsupported-alert support-alert alert">
+    <strong>Your Browser is not supported.</strong> 
+    Please upgrade to one of our <a href="http://browsehappy.com/">supported browsers</a>
+  </div>
+  <noscript>
+    &lt;div class="no-js-alert support-alert alert"&gt;
+      &lt;strong&gt;JavaScript is required.&lt;/strong&gt; Please turn on JavasScript and refresh the page
+    &lt;/div&gt;
+  </noscript>
+
+  <div id="preload" class="fade">
+    <div>
+      <div class="logo"><img network-logo="" style="display: none;"></div>
+      <div class="loader"><img src="./V2 Dev - APIs_files/loader.gif" alt="Loading..."></div>
+    </div>
+  </div>
+
+  <div role="main" class="container">
+    <div class="row">
+
+      <div id="sidebar" ng-class="sidebarClass" ng-include="&#39;partials/sidebar.html&#39;" ng-controller="Controllers.sidebar" ng-show="loggedIn" class="ng-scope max" style="height: 784px;">      <div class="side ng-scope" ng-hover="subnavHover($event)">
+        <div class="user">
+          <a class="btn account dropdown-toggle ng-scope" ui-route="/account(.*)" ng-class="{on: $uiRoute}" ng-click="expandSidebar()" data-toggle="dropdown">
+            <i class="sprite-user"></i>
+          </a>
+
+          <a class="btn mail ng-scope" href="http://pubint.dev/#!/messages" ui-route="/message(.*)" ng-class="{on: $uiRoute}">
+            <i class="sprite-mail"></i>
+            <span class="count" ng-show="messageCount &gt; 0" style=""><i class="ng-binding">3</i></span>
+          </a>
+
+          <a class="btn billing ng-scope" ui-route="/(invoice(.*)|billing(.*)|receipt(.*))" ng-class="{on: $uiRoute}" href="http://pubint.dev/#!/billing">
+            <i class="sprite-billing"></i>
+          </a>
+
+          <span class="account sub-nav">
+            <ul>
+              <li><a href="http://pubint.dev/#!/account" ui-route="/account(.*)" ng-class="{on: $uiRoute}" class="ng-scope">My Account</a></li>
+              <li><a href="mailto:spatula@hasoffers.com">Contact Support</a></li>
+
+              <!-- ngRepeat: link in links.account --><li ng-repeat="link in links.account" class="ng-scope">
+                <!-- uiIf: link.location=='internal' --><a ui-if="link.location==&#39;internal&#39;" href="http://pubint.dev/#!/page/8" ui-route="/page/8" ng-class="{active: $uiRoute}" class="ng-scope">
+                  <span class="ng-binding">Sublink below account</span>
+                </a>
+                <!-- uiIf: link.location=='external' -->
+              </li><li ng-repeat="link in links.account" class="ng-scope">
+                <!-- uiIf: link.location=='internal' --><a ui-if="link.location==&#39;internal&#39;" href="http://pubint.dev/#!/page/12" ui-route="/page/12" ng-class="{active: $uiRoute}" class="ng-scope">
+                  <span class="ng-binding">Sub under support</span>
+                </a>
+                <!-- uiIf: link.location=='external' -->
+              </li>
+
+              <li><a href="http://pubint.dev/#" ng-click="logOut($event)">Logout</a></li>
+            </ul>
+          </span>
+        </div>
+        <div class="dashboard" ng-class="getSubClass(&#39;dashboard&#39;)">
+          <div>
+            <a href="http://pubint.dev/#!/dashboard"><i class="sprite-dash"></i><span>Dashboard</span></a>
+          </div>
+        </div>
+        <div class="smi offers" ng-class="getSubClass(&#39;offers&#39;)" ng-hover="toggleSubnav($event, &#39;offers&#39;)">
+          <div>
+            <a ng-click="toggleSubnav($event, &#39;offers&#39;)">
+              <i class="sprite-offers"></i><span>Offers<i class="icon-chevron-down"></i></span>
+            </a>
+            <ul class="sub">
+              <li><a ui-route="/offers" ng-class="{active: $uiRoute}" href="http://pubint.dev/#!/offers" class="ng-scope">Browse / Search</a></li>
+              <li><a ui-route="/offers/my" ng-class="{active: $uiRoute}" href="http://pubint.dev/#!/offers/my" class="ng-scope">My Offers</a></li>
+
+              <!-- ngRepeat: link in links.offers --><li ng-repeat="link in links.offers" class="ng-scope">
+                <!-- uiIf: link.location=='internal' --><a ui-if="link.location==&#39;internal&#39;" href="http://pubint.dev/#!/page/2" ui-route="/page/2" ng-class="{active: $uiRoute}" class="ng-scope">
+                  <span class="ng-binding">Test Sublink</span>
+                </a>
+                <!-- uiIf: link.location=='external' -->
+              </li><li ng-repeat="link in links.offers" class="ng-scope">
+                <!-- uiIf: link.location=='internal' -->
+                <!-- uiIf: link.location=='external' --><a ui-if="link.location==&#39;external&#39;" href="http://google.com/" target="_blank" class="ng-scope">
+                  <span class="ng-binding">External Sub below offers</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div ng-show="hasPermission(&#39;stats&#39;)" class="smi reports" ng-class="getSubClass(&#39;performance&#39;)" ng-hover="toggleSubnav($event, &#39;performance&#39;)" style="">
+          <div>
+            <a ng-click="toggleSubnav($event, &#39;performance&#39;)">
+              <i class="sprite-reports"></i><span>Reports<i class="icon-chevron-down"></i></span>
+            </a>
+            <ul class="sub">
+              <li>
+                <a ui-route="/performance(.*)" ng-class="{active: $uiRoute}" href="http://pubint.dev/#!/performance" class="ng-scope">
+                  Performance Report
+                </a>
+              </li>
+              <li>
+                <a ui-route="/conversion(.*)" ng-class="{active: $uiRoute}" href="http://pubint.dev/#!/conversion" class="ng-scope">
+                  Conversion Report
+                </a>
+              </li>
+              <li>
+                <a ui-route="/referral" ng-class="{active: $uiRoute}" href="http://pubint.dev/#!/referral" class="ng-scope">
+                  Referral Report
+                </a>
+              </li>
+              <li>
+                <a ui-route="/savedReport(.*)" ng-class="{active: $uiRoute}" href="http://pubint.dev/#!/savedReports" class="ng-scope">
+                  Saved Reports
+                </a>
+              </li>
+
+              <!-- ngRepeat: link in links.reports --><li ng-repeat="link in links.reports" class="ng-scope">
+                <!-- uiIf: link.location=='internal' --><a ui-if="link.location==&#39;internal&#39;" href="http://pubint.dev/#!/page/6" ui-route="/page/6" ng-class="{active: $uiRoute}" class="ng-scope">
+                  <span class="ng-binding">Sublink under stats</span>
+                </a>
+                <!-- uiIf: link.location=='external' -->
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="smi tools on" ng-class="getSubClass(&#39;tools&#39;)" ng-hover="toggleSubnav($event, &#39;tools&#39;)">
+          <div>
+            <a ng-click="toggleSubnav(null, &#39;tools&#39;)">
+              <i class="sprite-tools"></i><span>Tools<i class="icon-chevron-down"></i></span>
+            </a>
+            <ul class="sub">
+              <!-- uiIf: getPreference('enable_affiliate_ad_server') --><li ui-if="getPreference(&#39;enable_affiliate_ad_server&#39;)" class="ng-scope">
+                <a ui-route="/tools/adgroups" ng-class="{active: $uiRoute}" href="http://pubint.dev/#!/tools/adgroups" class="ng-scope">
+                  Ad Groups
+                </a>
+              </li>
+              <li>
+                <a ui-route="/tools/pixels" ng-class="{active: $uiRoute}" href="http://pubint.dev/#!/tools/pixels" class="ng-scope">
+                  Pixels/Postbacks
+                </a>
+              </li>
+              <li>
+                <a ui-route="/tools/api-key" ng-class="{active: $uiRoute}" href="./V2 Dev - APIs_files/V2 Dev - APIs.html" class="ng-scope active">
+                  APIs
+                </a>
+              </li>
+
+              <!-- ngRepeat: link in links.tools --><li ng-repeat="link in links.tools" class="ng-scope">
+                <!-- uiIf: link.location=='internal' --><a ui-if="link.location==&#39;internal&#39;" href="http://pubint.dev/#!/page/4" ui-route="/page/4" ng-class="{active: $uiRoute}" class="ng-scope">
+                  <span class="ng-binding">Test under snapshot</span>
+                </a>
+                <!-- uiIf: link.location=='external' -->
+              </li><li ng-repeat="link in links.tools" class="ng-scope">
+                <!-- uiIf: link.location=='internal' --><a ui-if="link.location==&#39;internal&#39;" href="http://pubint.dev/#!/page/10" ui-route="/page/10" ng-class="{active: $uiRoute}" class="ng-scope">
+                  <span class="ng-binding">Sub under ad manager</span>
+                </a>
+                <!-- uiIf: link.location=='external' -->
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- ngRepeat: link in links.tabs --><div class="smi ng-scope" ng-repeat="link in links.tabs" ui-route="/page/16" ng-class="{on: $uiRoute}">
+          <div>
+            <!-- uiIf: link.location=='internal' --><a ui-if="link.location==&#39;internal&#39;" href="http://pubint.dev/#!/page/16" class="ng-scope">
+              <span class="ng-binding">Tab $(*)&amp;@#'sdf\/\\@*</span>
+            </a>
+            <!-- uiIf: link.location=='external' -->
+          </div>
+        </div><div class="smi ng-scope" ng-repeat="link in links.tabs" ui-route="/page/18" ng-class="{on: $uiRoute}">
+          <div>
+            <!-- uiIf: link.location=='internal' --><a ui-if="link.location==&#39;internal&#39;" href="http://pubint.dev/#!/page/18" class="ng-scope">
+              <span class="ng-binding">XYZ</span>
+            </a>
+            <!-- uiIf: link.location=='external' -->
+          </div>
+        </div><div class="smi ng-scope" ng-repeat="link in links.tabs" ui-route="/page/20" ng-class="{on: $uiRoute}">
+          <div>
+            <!-- uiIf: link.location=='internal' -->
+            <!-- uiIf: link.location=='external' --><a ui-if="link.location==&#39;external&#39;" href="http://amazon.com/" target="_blank" class="ng-scope">
+              <span class="ng-binding">Foobar External</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- uiIf: !isMobile --><div class="sm-search ng-scope" ui-if="!isMobile">
+          <div>
+            <h4>Search Offers</h4>
+            <form ng-submit="submitQuicksearch()" class="ng-pristine ng-valid">
+              <input type="text" class="search ng-pristine ng-valid" ng-model="quicksearch" ui-event="{focus: &#39;expandSidebar()&#39;}">
+            </form>
+          </div>
+        </div>
+
+        <div class="manager-support">
+          <!-- uiIf: getPreference('enable_affiliate_managers') && Manager.email -->
+          <div class="supportLink">
+            <a class="contact support" href="mailto:spatula@hasoffers.com">
+              <span><i class="icon-question-sign"></i><em>Contact Support</em></span>
+            </a>
+          </div>
+        </div>
+        <div class="tos">
+          <div>
+            <a ui-route="/terms" ng-class="{on: $uiRoute}" href="http://pubint.dev/#!/terms" class="ng-scope">Terms of Service</a>
+          </div>
+        </div>
+
+        <div class="adspace">
+          <div>
+            <a href="http://pubint.dev/#"><img src="./V2 Dev - APIs_files/network-ad.png"></a>
+          </div>
+        </div>
+      </div>
+</div>
+
+      <div id="globalLoadingIndicator" class="alert" ng-show="loadingCount &gt; 0" style="display: none;">
+         <a><span><i class="icon-refresh"></i></span>Loading...</a>
+      </div>
+      
+      <div id="flashError" ng-show="flashErrorMessage.visible" class="alert alert-error ng-binding" style="display: none;">
+        
+        <a href="http://pubint.dev/#" class="close" data-dismiss="alert" ng-click="flashErrorMessage.visible = false">×</a>
+      </div>
+      <div id="content" ng-class="contentClass" ng-view=""><h1>Api Key Page Yo</h1></div>
+
+
+      <div ng-switch="" on="getApiLogEnabled()">
+        <!-- ngSwitchDefault:  -->
+        <!-- ngSwitchWhen: true -->
+      <div ng-switch-default="" class="ng-scope"></div></div>
+    </div>
+  </div>
+  <footer>
+
+  </footer>
+
+  
+    <script src="./V2 Dev - APIs_files/jquery-1.8.3.min.js"></script>
+    <script src="./V2 Dev - APIs_files/support-check.js"></script>
+    <script src="./V2 Dev - APIs_files/bootstrap.min.js"></script>
+    <script src="./V2 Dev - APIs_files/moment.js"></script>
+    <script src="./V2 Dev - APIs_files/highcharts.js"></script>
+
+    <script src="./V2 Dev - APIs_files/date.js"></script>
+
+    <script src="./V2 Dev - APIs_files/datepicker.js"></script>
+    <script src="./V2 Dev - APIs_files/class.js"></script>
+    <script src="./V2 Dev - APIs_files/currency.js"></script>
+    <script src="./V2 Dev - APIs_files/jquery.tmpl.min.js"></script>
+    <script src="./V2 Dev - APIs_files/exporting.js"></script>
+    <script src="./V2 Dev - APIs_files/jquery.zclip.min.js"></script>
+    <script src="./V2 Dev - APIs_files/jquery.caret.1.02.js"></script>
+    <script src="./V2 Dev - APIs_files/jqgrid.min.js"></script>
+    <script src="./V2 Dev - APIs_files/textfill.js"></script>
+    <script src="./V2 Dev - APIs_files/lodash.underscore.min.js"></script>
+    <script src="./V2 Dev - APIs_files/timezoneDetect.min.js"></script>
+
+    <script src="./V2 Dev - APIs_files/config.php"></script>
+
+    <script src="./V2 Dev - APIs_files/angular.min.js"></script>
+    <script src="./V2 Dev - APIs_files/angular-resource.min.js"></script>
+    <script src="./V2 Dev - APIs_files/angular-sanitize.min.js"></script>
+    <script src="./V2 Dev - APIs_files/angular-ui.min.js"></script>
+
+    <script src="./V2 Dev - APIs_files/routes.js"></script>
+    <script src="./V2 Dev - APIs_files/app.js"></script>
+
+    <script src="./V2 Dev - APIs_files/hascharts.js"></script>
+    <script src="./V2 Dev - APIs_files/chart.js"></script>
+    <script src="./V2 Dev - APIs_files/formatter.js"></script>
+    <script src="./V2 Dev - APIs_files/grid.js"></script>
+
+    <!-- custom Angular Modules -->
+    <script src="./V2 Dev - APIs_files/directiveRegistry.js"></script>
+    <script src="./V2 Dev - APIs_files/dataRenderingService.js"></script>
+    <script src="./V2 Dev - APIs_files/hasTable.js"></script>
+    <script src="./V2 Dev - APIs_files/controller.js"></script>
+    <script src="./V2 Dev - APIs_files/hasPager.js"></script>
+
+    <script src="./V2 Dev - APIs_files/hasTableMobile.js"></script>
+    <script src="./V2 Dev - APIs_files/controller(1).js"></script>
+
+    <!-- load services -->
+    <script src="./V2 Dev - APIs_files/dataStorage.js"></script>
+    <script src="./V2 Dev - APIs_files/hasSession.js"></script>
+    <script src="./V2 Dev - APIs_files/chartService.js"></script>
+    <script src="./V2 Dev - APIs_files/md5Service.js"></script>
+    <script src="./V2 Dev - APIs_files/garbageCollection.js"></script>
+    <script src="./V2 Dev - APIs_files/currentUser.js"></script>
+    <script src="./V2 Dev - APIs_files/geographicService.js"></script>
+    <script src="./V2 Dev - APIs_files/cacheService.js"></script>
+    <script src="./V2 Dev - APIs_files/timeoutQueueService.js"></script>
+    <script src="./V2 Dev - APIs_files/modelFactoryService.js"></script>
+
+    <script src="./V2 Dev - APIs_files/plugins.js"></script>
+
+    <!-- Application modules -->
+
+    <!-- debugPanel -->
+    <script src="./V2 Dev - APIs_files/debugController.js"></script>
+    <!-- / debugPanel -->
+
+    <!-- commons -->
+    <script src="./V2 Dev - APIs_files/modelBase.js"></script>
+    <script src="./V2 Dev - APIs_files/filters.js"></script>
+    <!-- / commons -->
+
+    <!-- offers -->
+    <script src="./V2 Dev - APIs_files/offerDetailModel.js"></script>
+    <script src="./V2 Dev - APIs_files/offersModel.js"></script>
+    <script src="./V2 Dev - APIs_files/offerPixelsModel.js"></script>
+    <script src="./V2 Dev - APIs_files/offerFileModel.js"></script>
+
+    <script src="./V2 Dev - APIs_files/offersController.js"></script>
+    <script src="./V2 Dev - APIs_files/offerDetailController.js"></script>
+    <script src="./V2 Dev - APIs_files/offerCreativesController.js"></script>
+    <script src="./V2 Dev - APIs_files/offerCreativeModalController.js"></script>
+    <script src="./V2 Dev - APIs_files/offerApprovalModalController.js"></script>
+    <!-- /offers -->
+
+    <!-- dashboard -->
+    <script src="./V2 Dev - APIs_files/dashboard.js"></script>
+    <script src="./V2 Dev - APIs_files/adgroupPerformanceWidget.js"></script>
+    <script src="./V2 Dev - APIs_files/quickStatsWidget.js"></script>
+    <script src="./V2 Dev - APIs_files/recentMessagesWidget.js"></script>
+    <script src="./V2 Dev - APIs_files/featuredOffersWidget.js"></script>
+    <script src="./V2 Dev - APIs_files/performanceChartWidget.js"></script>
+    <!-- /dashboard -->
+
+    <!-- adgroups -->
+    <script src="./V2 Dev - APIs_files/adGroupsModel.js"></script>
+    <script src="./V2 Dev - APIs_files/adGroupFormController.js"></script>
+    <script src="./V2 Dev - APIs_files/adGroupsController.js"></script>
+    <script src="./V2 Dev - APIs_files/adGroupDetailController.js"></script>
+    <script src="./V2 Dev - APIs_files/adGroupCreativesController.js"></script>
+    <script src="./V2 Dev - APIs_files/adGroupsOfferModalController.js"></script>
+    <!-- /adgroups -->
+
+    <!-- customPage -->
+    <script src="./V2 Dev - APIs_files/customPage.js"></script>
+    <script src="./V2 Dev - APIs_files/customPageModel.js"></script>
+    <!-- /customPage -->
+
+    <!-- apiKey -->
+    <script src="./V2 Dev - APIs_files/apiKey.js"></script>
+    <script src="./V2 Dev - APIs_files/apiKeyModel.js"></script>
+    <!-- /apiKey -->
+
+    <!-- terms -->
+    <script src="./V2 Dev - APIs_files/terms.js"></script>
+    <script src="./V2 Dev - APIs_files/termsModel.js"></script>
+    <!-- /tems -->
+
+    <!-- /application modules -->
+
+    <!-- models -->
+    <script src="./V2 Dev - APIs_files/messages.js"></script>
+    <script src="./V2 Dev - APIs_files/affiliate.js"></script>
+    <script src="./V2 Dev - APIs_files/billing.js"></script>
+    <script src="./V2 Dev - APIs_files/receipts.js"></script>
+    <script src="./V2 Dev - APIs_files/invoice.js"></script>
+    <script src="./V2 Dev - APIs_files/application.js"></script>
+    <script src="./V2 Dev - APIs_files/savedReports.js"></script>
+    <!-- reports models last, they may reference entity models -->
+    <script src="./V2 Dev - APIs_files/reportsBase.js"></script>
+    <script src="./V2 Dev - APIs_files/statsReport.js"></script>
+    <script src="./V2 Dev - APIs_files/conversionReport.js"></script>
+    <script src="./V2 Dev - APIs_files/referralReport.js"></script>
+    <script src="./V2 Dev - APIs_files/affiliateUser.js"></script>
+
+    <!-- controllers -->
+    <script src="./V2 Dev - APIs_files/app(1).js"></script>
+    <script src="./V2 Dev - APIs_files/table.js"></script>
+    <script src="./V2 Dev - APIs_files/login.js"></script>
+
+    <script src="./V2 Dev - APIs_files/receipt.js"></script>
+    <script src="./V2 Dev - APIs_files/receipts(1).js"></script>
+    <script src="./V2 Dev - APIs_files/billing(1).js"></script>
+    <script src="./V2 Dev - APIs_files/invoice(1).js"></script>
+    <script src="./V2 Dev - APIs_files/messages(1).js"></script>
+    <script src="./V2 Dev - APIs_files/sidebar.js"></script>
+    <script src="./V2 Dev - APIs_files/reports.js"></script>
+    <script src="./V2 Dev - APIs_files/referralReport(1).js"></script>
+    <script src="./V2 Dev - APIs_files/referralList.js"></script>
+    <script src="./V2 Dev - APIs_files/savedReports(1).js"></script>
+    <script src="./V2 Dev - APIs_files/account.js"></script>
+    <script src="./V2 Dev - APIs_files/userDetails.js"></script>
+    <script src="./V2 Dev - APIs_files/pixelPostback.js"></script>
+    <script src="./V2 Dev - APIs_files/createPixelPostback.js"></script>
+    <script src="./V2 Dev - APIs_files/affiliateUsers.js"></script>
+    <script src="./V2 Dev - APIs_files/performanceMobile.js"></script>
+
+
+
+    <!-- directives -->
+    <script src="./V2 Dev - APIs_files/iframeContent.js"></script>
+    <script src="./V2 Dev - APIs_files/sparkline.js"></script>
+    <script src="./V2 Dev - APIs_files/jqGrid.js"></script>
+    <script src="./V2 Dev - APIs_files/events.js"></script>
+    <script src="./V2 Dev - APIs_files/dateRangePicker.js"></script>
+    <script src="./V2 Dev - APIs_files/typeahead.js"></script>
+    <script src="./V2 Dev - APIs_files/modal.js"></script>
+    <script src="./V2 Dev - APIs_files/zclip.js"></script>
+    <script src="./V2 Dev - APIs_files/panelStates.js"></script>
+    <script src="./V2 Dev - APIs_files/pagingSlider.js"></script>
+    <script src="./V2 Dev - APIs_files/hasTooltip.js"></script>
+    <script src="./V2 Dev - APIs_files/shortDatePicker.js"></script>
+    <script src="./V2 Dev - APIs_files/networkLogo.js"></script>
+    <script src="./V2 Dev - APIs_files/mobileHeaderHide.js"></script>
+
+    <script src="./V2 Dev - APIs_files/apiLogger.js"></script>
+    <script src="./V2 Dev - APIs_files/api.js"></script>
+
+    <!-- routes and app-->
+
+
+  <!--
+  <script>
+  var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+  (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+  g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+  s.parentNode.insertBefore(g,s)}(document,'script'));
+  </script>
+-->
+
+<!-- snippets //-->
+<script type="text/ng-template" id="grid-table-snippet.html">
+<div id="{{gridName}}_container" class="data" jq-grid>
+  <div class="data-grid">
+    <div class="grid-pagination">
+      <div class="page-input">
+        Page: <input type="text" ng-model="gridPageCurrent" ng-enterkey="gridUpdatePage()" class="grid-page-input" value="{{gridPageCurrent}}" /> of <span class="grid-page-total">{{gridPageTotal}}</span>
+      </div>
+      <a ng-class="gridPagePrevDisabled()" class="btn nav grid-page-prev"><i class="icon-chevron-left"></i></a>
+      <a ng-class="gridPageNextDisabled()" class="btn nav grid-page-next"><i class="icon-chevron-right"></i></a>
+      <div class="btn-group">
+          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+            <span class="grid-page-numrows">{{gridPageNumrows}}</span>
+            <i class="icon-chevron-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li ng-repeat="val in gridPageNumrowOptions"><a ng-click="gridPageSetNumrows($event, val)" data-val="{{val}}">{{val}}</a></li>
+          </ul>
+        </div>
+    </div>
+    <table id="{{gridName}}" class="table table-striped jqgrid" style="position:relative"></table>
+    <div class="{{gridName}}_pager"></div>
+  </div>
+</div>
+</script>
+
+<script id="datepicker-controls" type="text/x-jquery-tmpl">
+<div class="datepicker-wrapper panel-display">
+	<div class="panel-container">
+		<div class="datepicker-layout clearfix">
+			<div class="datepicker-layout-left">
+				<ul>
+					<li>Date Presets:</li>
+					<li><a data-preset="today" class="datepicker-preset">Today</a></li>
+					<li><a data-preset="yesterday" class="datepicker-preset">Yesterday</a></li>
+					<li><a data-preset="last_week" class="datepicker-preset">Last 7 Days</a></li>
+					<li><a data-preset="this_month" class="datepicker-preset">This Month</a></li>
+					<li><a data-preset="last_month" class="datepicker-preset">Last Month</a></li>
+					<li><a data-preset="last_six_months" class="datepicker-preset">Last 6 Months</a></li>
+					<li><a data-preset="this_year" class="datepicker-preset">This Year</a></li>
+					<li><a data-preset="last_year" class="datepicker-preset">Last Year</a></li>
+					<li><a data-preset="all_time" class="datepicker-preset">All Time</a></li>
+				</ul>
+			</div>
+			<div class="datepicker-layout-right">
+				<div class="datepicker-inputs">
+					<input type="text" class="datepicker-input-start">
+					<span class="datepicker-input-dash">&mdash;</span>
+					<input type="text" class="datepicker-input-end">
+					<select class="datepicker-timezone-select" disabled="disabled">
+						<option value="">Loading timezones...</option>
+					</select>
+				</div>
+				<div class="datepicker-datepicker"></div>
+			</div>
+		</div>
+		<div class="datepicker-controls actions">
+			<a class="apply btn"><i class="icon-ok"></i>Apply</a>
+			<a class="cancel btn btn-secondary"><i class="icon-remove"></i>Cancel</a>
+		</div>
+	</div>
+</div>
+</script>
+
+  <script type="text/ng-template" id="hasTableMobileBase">
+    <div class="hasTableMobileWrapper">
+      <div class="mobile-table-data">
+
+      </div>
+      <div class="no-data-available" ng-show="noData">
+        <h4>No data found</h4>
+      </div>
+
+      <div ng-show="getItemsRemaining()" class="load-more">
+        <a ng-click="requestMoreItems()">LOAD MORE</a>
+      </div>
+    </div>
+  </script>
+
+<script type="text/ng-template" id="hasTableBase">
+  <div class="hasTableWrapper data-grid">
+    <has-pager ui-if="pagingEnabled"></has-pager>
+    <table class="table table-striped hasTable responsive">
+      <thead>
+      <tr class="hasTableHeaderRow">
+      </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <div class="no-data" ng-show="noData">
+      <div class="no-data-available">
+        <h4>No Results Found</h4>
+      </div>
+    </div>
+    <has-pager ui-if="pagingEnabled" ng-show="tableDataNumRows >= 20"></has-pager>
+  </div>
+</script>
+
+<script type="text/ng-template" id="hasPager">
+  <div class="grid-pagination">
+    <div class="page-input">
+      Page: <input type="text" ng-model="currentPage" ng-enterkey="updatePageNum()" class="grid-page-input" /> of
+            <span class="grid-page-total">{{paging.pageCount || 1}}</span>
+    </div>
+    <a ng-class="{disabled: !paging.page || paging.page <= 1}"
+       ng-click="gridPagePrev()"
+       class="btn nav grid-page-prev"><i class="icon-chevron-left"></i>
+    </a>
+    <a ng-class="{disabled: !paging.page ||  paging.page >= paging.pageCount}"
+       ng-click="gridPageNext()"
+       class="btn nav grid-page-next"><i class="icon-chevron-right"></i>
+    </a>
+    <div class="btn-group">
+      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+        <span class="grid-page-numrows">{{paging.pageSize}}</span>
+        <i class="icon-chevron-down"></i>
+      </a>
+      <ul class="dropdown-menu">
+        <li ng-repeat="val in gridPageNumOptions">
+          <a ng-click="gridSetPageSize(val)" data-val="{{val}}">{{val}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</script>
+
+<script type="text/ng-template" id="short-date-picker.tpl">
+  <div ng-class="{'btn-group': !isMobile}" class="short-date-picker">
+    <div ng-show="!isMobile">
+      <a class="btn dropdown-toggle" data-toggle="dropdown">
+        <span class="daterange-display">{{getSelectedDateRange().relativeRange}}</span>
+        <i class="icon-chevron-down"></i>
+      </a>
+      <ul class="dropdown-menu">
+        <li ng-repeat="obj in displayRanges">
+          <a ng-click="setSelectedIndex(obj.index)" data-val="{{obj.range}}">{{obj.range}}</a>
+        </li>
+      </ul>
+    </div>
+    <select ng-show="isMobile" ng-model="selectedDateIndex"
+      ng-options="obj.index as obj.range for obj in displayRanges"></select>
+  </div>
+</script>
+
+<script>
+$(document).ready(function() {
+  $(document).on('click', '.debugger li', function(e) {
+    if (_.indexOf(['pre', 'a'], e.target.tagName.toLowerCase()) == -1) {
+      $(this).find('.details').toggle();
+    }
+  });
+
+  var $body, resizeDebugger, $parent, currentSize;
+
+  $body = $('body');
+  $parent = $('.debugger'),
+
+  resizeDebugger = function(newHeight){
+    $body.css('padding-bottom', newHeight);
+    $parent.height(newHeight);
+  };
+
+  $parent.find('.toggler').click(function(e){
+    if ($parent.height() > 20){
+      currentSize = $parent.height();
+      resizeDebugger(20);
+
+    } else {
+      resizeDebugger(currentSize || 200);
+    }
+  });
+
+  $(document).on('mousedown', '.resizer', function(e) {
+    e.preventDefault();
+
+    var $this = $(this),
+        start = e.clientY || e.PageY,
+        originalHeight = $parent.height();
+
+    $(document).bind('mousemove', function(e) {
+      var newHeight = originalHeight + (start-(e.clientY || e.PageY));
+      if (newHeight < 0) {
+        $(document).trigger('mouseup');
+      }
+      newHeight = newHeight > 20 ? newHeight : 20;
+      resizeDebugger(newHeight);
+    });
+
+    $(document).bind('mouseup', function() {
+      $(document).unbind('mousemove');
+      $(document).unbind('mouseup');
+    });
+  });
+});
+</script>
+
+<div id="reportsColumnSnippets" ng-include="&#39;partials/report-column-snippets.html&#39;"><script id="report_column_offer_name" type="text/x-jquery-tmpl" class="ng-scope">
+<div class="col-name">
+<div class="triangle"></div>
+
+{{if Offer && Offer.name}}
+  {{if Stat && Stat.offer_id}}
+    <a href="#!/performanceDetail/offer/${Stat.offer_id}">${Offer.name}</a>
+  {{else}}
+    <a href="#!/performanceDetail/offer/${Offer.id}">${Offer.name}</a>
+  {{/if}}
+{{else}}
+  <em>Unnamed Offer</em>
+{{/if}}
+</div>
+</script>
+
+<script id="report_column_stat_date" type="text/x-jquery-tmpl" class="ng-scope">
+<div class="col-name">
+{{if Stat.first}}
+<div class="triangle"></div>
+{{/if}}
+${Stat.date}
+</div>
+</script>
+
+<script id="report_column_stat_datehour" type="text/x-jquery-tmpl" class="ng-scope">
+<div class="col-name">
+{{if Stat.first}}
+<div class="triangle"></div>
+{{/if}}
+${Stat.datehour}
+</div>
+</script>
+
+<script id="report_column_stat_hour" type="text/x-jquery-tmpl" class="ng-scope">
+<div class="col-name">
+{{if Stat.first}}
+<div class="triangle"></div>
+{{/if}}
+${Stat.hour}
+</div>
+</script>
+
+<script id="report_column_stat_week" type="text/x-jquery-tmpl" class="ng-scope">
+<div class="col-name">
+{{if Stat.first}}
+<div class="triangle"></div>
+{{/if}}
+${Formatter.formatWeek(ChartFactory.getHelper().parseWeek(Stat.week))}
+</div>
+</script>
+
+<script id="report_column_stat_month" type="text/x-jquery-tmpl" class="ng-scope">
+<div class="col-name">
+{{if Stat.first}}
+<div class="triangle"></div>
+{{/if}}
+${Stat.month}
+</div>
+</script>
+
+<script id="report_column_stat_year" type="text/x-jquery-tmpl" class="ng-scope">
+<div class="col-name">
+{{if Stat.first}}
+<div class="triangle"></div>
+{{/if}}
+${Stat.year}
+</div>
+</script>
+</div>
+  <ng-include src="&#39;partials/tableTemplates/messages.html&#39;"><script type="text/ng-template" id="messagesHeaderTemplate.tpl" class="ng-scope">
+  <th width="60">
+    <input type="checkbox" id="checkAllBoxes"/>
+  </th>
+  <th style="min-width: 100px;">Subject</th>
+  <th>Message</th>
+  <th width="100">Sent At</th>
+</script>
+
+<script type="text/ng-template" id="messagesRowTemplate.tpl" class="ng-scope">
+  <tr>
+    <td>
+      <input type="checkbox" class="message-check" data-alert-id="{{Alert.id}}"/>
+    </td>
+    <td>
+      <a href="#!/message/{{Alert.id}}">{{Alert.title|ifEmpty:'(No Title)'}}</a>
+    </td>
+    <td>
+      {{Alert.description}}
+    </td>
+    <td>
+      {{Alert.datetime|date: 'M-d-yyyy'}}<br />
+      {{Alert.datetime|date: 'h:mm a'}}
+    </td>
+  </tr>
+</script>
+
+<script type="text/ng-template" id="messagesRowMobile" class="ng-scope">
+    <div class="mobile-card-wrapper" id="message{{Alert.id}}">
+        <div class="card-header">
+          <div class="card-header-main">
+            {{Alert.title|ifEmpty:'(No Title)'}}
+          </div>
+          <div class="card-header-sub">
+            <span ng-bind-html="Alert.datetime|relativeDate"></span>
+          </div>
+        </div>
+        <div class="card-body message-body">
+          <div ng-bind-html="Alert.description"></div>
+
+          <button type="button" class="btn primary-delete" ng-click="showDeleteConfirm($event, 'message'+Alert.id);">
+            Delete Message
+          </button>
+
+          <div class='confirm-group clearfix'>
+            <h3>Are you sure you want to delete this message?</h3>
+            <button type="button" class="btn" ng-click="dismissMessage(Alert.id, 'message'+Alert.id)">
+              Delete Message
+            </button>
+            <button type="button" class="btn" ng-click="hideDeleteConfirm($event, 'message'+Alert.id)">
+              Cancel
+            </button>
+          </div>
+        </div>
+    </div>
+</script>
+</ng-include>
+  <ng-include src="&#39;partials/tableTemplates/affiliateUsers.html&#39;">
+<script type="text/ng-template" id="affiliateUsersHeaderTemplate.tpl" class="ng-scope">
+  <th data-sort="last_name">Last Name</th>
+  <th data-sort="first_name">First Name</th>
+  <th data-sort="title">Title</th>
+  <th data-sort="email">Email</th>
+  <th data-sort="modified">Updated</th>
+</script>
+
+<script type="text/ng-template" id="affiliateUsersRowTemplate.tpl" class="ng-scope">
+  <tr>
+    <td>
+      <a href="#!/account/{{id}}">
+        {{last_name|ifEmpty:'(No Name)'}}
+      </a>
+    </td>
+
+    <td>
+      <a href="#!/account/{{id}}">
+        {{first_name|ifEmpty:'(No Name)'}}
+      </a>
+    </td>
+
+    <td>
+      {{title}}
+    </td>
+
+    <td>
+      <a href="mailto:{{email}}">{{email}}</a>
+    </td>
+
+    <td>
+      <i>{{modified}}</i>
+    </td>
+  </tr>
+</script></ng-include>
+  <ng-include src="&#39;partials/tableTemplates/billing.html&#39;"><script type="text/ng-template" id="billingInvoicesHeaderTemplate.tpl" class="ng-scope">
+  <th>Statement</th>
+  <th>Date/Time</th>
+  <th>Message</th>
+  <th>Amount</th>
+</script>
+
+<script type="text/ng-template" id="billingInvoicesRowTemplate.tpl" class="ng-scope">
+  <tr>
+    <td>
+      <a href="#!/invoice/{{AffiliateInvoice.id}}">
+         Invoice #{{AffiliateInvoice.id}}
+      </a>
+    </td>
+    <td>
+      {{AffiliateInvoice.datetime}}
+    </td>
+    <td>
+      {{AffiliateInvoice.memo}}
+    </td>
+    <td>
+      {{AffiliateInvoice.amount|currency:AffiliateInvoice.currency}}
+    </td>
+  </tr>
+</script>
+
+
+<script type="text/ng-template" id="billingPaymentsHeaderTemplate.tpl" class="ng-scope">
+  <th>Payment</th>
+  <th>Date/Time</th>
+  <th>Status</th>
+  <th>Memo</th>
+  <th>Method</th>
+  <th>Amount</th>
+</script>
+
+<script type="text/ng-template" id="billingPaymentsRowTemplate.tpl" class="ng-scope">
+  <tr>
+    <td>
+      <a href="#!/receipt/{{AffiliateReceipt.id}}">
+        Receipt #{{AffiliateReceipt.id}}
+      </a>
+    </td>
+    <td>
+      {{AffiliateReceipt.datetime}}
+    </td>
+    <td>
+      {{AffiliateReceipt.status}}
+    </td>
+    <td>
+      {{AffiliateReceipt.memo}}
+    </td>
+    <td>
+      {{formatPaymentMethod(AffiliateReceipt.method)}}
+    </td>
+    <td>
+      {{AffiliateReceipt.amount|currency:AffiliateReceipt.currency}}
+    </td>
+  </tr>
+</script>
+</ng-include>
+
+
+
+<div id="window-resizer-tooltip" style="display: block;"><a href="http://pubint.dev/#" title="Edit settings" style="background-image: url(chrome-extension://kkelicaakdanhinjdeammmilcgefonfh/images/icon_19.png);"></a><span class="tooltipTitle">Window size: </span><span class="tooltipWidth" id="winWidth">1440</span> x <span class="tooltipHeight" id="winHeight">900</span><br><span class="tooltipTitle">Viewport size: </span><span class="tooltipWidth" id="vpWidth">1440</span> x <span class="tooltipHeight" id="vpHeight">784</span></div></body></html>

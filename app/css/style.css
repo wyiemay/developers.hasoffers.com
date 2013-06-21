@@ -28,37 +28,52 @@ dd {
 }
 body {
 	font-size: 13px;
+  padding-top: 60px;
 }
-.header {
-	display: block;
-	height: 45px;
-	border-bottom: 1px solid #ccc;
-	background: #ffffff; /* Old browsers */
-	background: -moz-linear-gradient(top,  #ffffff 20%, #e5e5e5 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(20%,#ffffff), color-stop(100%,#e5e5e5)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,  #ffffff 20%,#e5e5e5 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top,  #ffffff 20%,#e5e5e5 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top,  #ffffff 20%,#e5e5e5 100%); /* IE10+ */
-	background: linear-gradient(to bottom,  #ffffff 20%,#e5e5e5 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+
+.nav li {
+  border-left: 1px solid #ccc;
 }
-.header > .container {
-	margin: 5px auto;
+
+.nav li:last-child {
+  border-right: 1px solid #ccc;
 }
-.header .span4 {
-	text-align: right;
+
+.nav li a {
+  line-height: 35px;
 }
-.header ul {
-	list-style-type: none;
-	margin: 5px 0 0 0;
-	padding: 0;
+
+.nav li li {
+  border-width: 0;
 }
-.header ul li {
-	display: inline-block;
+
+.nav li a i:first-child {
+  display: inline-block;
+  font-size: 1.3em !important;
+  margin-top: -.2em;
+  vertical-align: middle;
 }
-.header li .btn-mini {
-	vertical-align: top;
+
+.nav .api-health {
+  color: white !important;
+  opacity: .9;
+  text-shadow: black 0px 1px 0px !important;
 }
+
+.nav .api-health:hover {
+  opacity: 1;
+}
+
+.nav .api-health.up,
+.nav .api-health.up:hover {
+  background-color: #46a546;
+}
+
+.nav .api-health.down,
+.nav .api-health.down:hover {
+  background-color: #f89406;
+}
+
 .header input.search-query {
 	margin-top: 3px;
 }
