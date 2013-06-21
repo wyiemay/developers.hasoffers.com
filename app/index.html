@@ -1,45 +1,44 @@
 <!doctype html>
 <html ng-app="Docs">
     <head>
-        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
         <!-- Header -->
-        <div class="header container-fluid">
-            <div class="container">
-                <div class="row-fluid">
-                    <div class="span2">
-                        <a href="http://www.hasoffers.com"><img class="has-logo" src="img/HasOffers.png" width="100" height="35" /></a>
-                    </div>
-                    <div class="span8">
-                        <ul>
-                            <li><a class="btn btn-mini" href="http://www.hasoffers.com" target="_blank"><i class="icon-home"></i>Home</a></li>
-                            <li><a class="btn btn-mini" href="http://www.hasoffers.com/tour" target="_blank"><i class="icon-hand-right"></i>Tour</a></li>
-                            <li><a class="btn btn-mini" href="http://www.hasoffers.com/pricing" target="_blank"><i class="icon-tag"></i>Pricing</a></li>
-                            <li><a class="btn btn-mini" href="http://www.hasoffers.com/blog" target="_blank"><i class="icon-comment"></i>Blog</a></li>
-                            <li><a class="btn btn-mini" href="http://support.hasoffers.com" target="_blank"><i class="icon-question-sign"></i>Support</a></li>
-                            <li><a class="btn btn-mini" href="http://developers.hasoffers.com/affiliate_signup/" target="_blank"><i class="icon-user"></i>Custom Affiliate Signup</a></li>
+            <div class="navbar navbar-fixed-top">
+                <div class="navbar-inner">
+                    <div class="container">
+                        <a class="brand" href="http://www.hasoffers.com"><img class="has-logo" src="img/HasOffers.png" width="100" height="35" /></a>
+                        <ul class="nav">  
+                            <!-- <a class="btn btn-mini" href="http://www.hasoffers.com" target="_blank"><i class="icon-home"></i>Home</a> -->
+                            <li><a  href="http://www.hasoffers.com/tour" target="_blank"><i class="icon-hand-right"></i> Tour</a></li>
+                            <li><a  href="http://www.hasoffers.com/pricing" target="_blank"><i class="icon-tag"></i> Pricing</a></li>
+                            <li><a  href="http://www.hasoffers.com/blog" target="_blank"><i class="icon-comment"></i> Blog</a></li>
+                            <li><a  href="http://support.hasoffers.com" target="_blank"><i class="icon-question-sign"></i> Support</a></li>
+                            <li><a  href="http://developers.hasoffers.com/affiliate_signup/" target="_blank"><i class="icon-user"></i> Custom Affiliate Signup</a></li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog"></i> Documentation <i class="icon-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Current Documentation</a><li>
+                                    <li><a href="http://www.hasoffers.com/wiki/Category:API">Legacy Documentation</a><li>
+                                </ul>
+                            </li>
                             <li>
-                                <div class="btn-group">
-                                    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="icon-cog"></i>Documentation</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">Current Documentation</a><li>
-                                        <li><a href="http://www.hasoffers.com/wiki/Category:API">Legacy Documentation</a><li>
-                                    </ul>
-                                </div>
+                             <a api-health class="api-health" ng-class="{'down': !apiSuccess, 'up': apiSuccess}" href="http://status.hasoffers.com/">
+                                    <i ng-show="apiSuccess" class="icon-ok-sign"></i>
+                                    <i ng-show="!apiSuccess" class="icon-minus-sign"></i>
+                                    API Health
+                                </a>
                             </li>
                         </ul>
-                    </div>
-                    <div class="span2">
                        <a href="https://github.com/Adapp/developers.hasoffers.com">
                             <img class="sidebar-nav-fixed" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub">
                        </a>
                     </div>
                 </div>
             </div>
-        </div>
 
         <!-- Content -->
         <div class="content container">
@@ -69,7 +68,12 @@
         <script type="text/javascript" src="js/app.js"></script>
         <script type="text/javascript" src="js/controllers/controllers.js"></script>
         <script type="text/javascript" src="js/directives/apihealth.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/lib/ui-bootstrap-0.2.0.min.js"></script>
+        <script>
+            $('.dropdown-toggle').dropdown();
+        </script>
 
         <script type="text/javascript">
           var _gaq = _gaq || [];
