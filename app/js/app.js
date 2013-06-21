@@ -374,5 +374,4 @@
         };
     }]);
 
-    // jQuery('.dropdown-toggle').dropdown();
 })(window);
