@@ -4,7 +4,26 @@
 
 <p>To get started, make sure that you have requested and been approved for an Affiliate API V3 Key.  To make a request to the API, simply provide your key as well as the Network ID in which your account is registered.  Click on any function at the left to view the documentation and use the embedded query builder to execute requests directly to the HasOffers API.</p>
 
-<h2>Getting Started</h2>
-<div class="container-fluid">
-</div>
+<h2>Typical API request</h2>
+<pre>http://api.hasoffers.com/v3/Affiliate_Affiliate.json?Method=getAccountManager&api_key=MY_API_KEY&NetworkId=SAMPLE</pre>
 
+<h2>Typical API Response</h2>
+<pre>
+ {
+  "request": {
+    ...collapsed JSON data
+  },
+  "response": {
+    "status": 1,
+    "httpStatus": 200,
+    "data": {
+      "id": "1",
+      "first_name": "John",
+      "last_name": "Doe",
+      "title": "Affiliate Manager"
+    },
+    "errors": [],
+    "errorMessage": null
+  }
+}
+</pre>
