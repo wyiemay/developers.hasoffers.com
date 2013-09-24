@@ -237,9 +237,9 @@
 
                         case 'fields':
                             angular.forEach(parseValues, function(value) {
-                                if (value.name != null) {
+                                if (value.selectValue != null) {
                                     $scope.apiCall += '&' + fieldType +
-                                        '[]=' + value.name;
+                                        '[]=' + value.selectValue.name;
                                 }
                             });
                             break;
@@ -260,7 +260,7 @@
                             });
                             break;
 
-                       default:
+                        default:
                             if (parseValues.selectValue != null) {
                                 $scope.apiCall += '&' + fieldType +
                                     '=' + parseValues.selectValue;
