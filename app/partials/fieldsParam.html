@@ -1,5 +1,27 @@
-<select class="input-medium"
-        ng-model="param.parse.selectValue"
-        ng-options="field.name for field in displayedMethod.fields"
-        ng-change="updateApiCall()">
-</select>
+<ul class="unstyled">
+
+    <li ng-repeat="p in param.parse">
+        <div class="input-append">
+            <select class="input-medium"
+                    ng-model="p.selectValue"
+                    ng-options="field.name for field in displayedMethod.fields"
+                    ng-change="updateApiCall()">
+            </select>
+
+            <button class="btn"
+                    type="button"
+                    ng-click="param.parse.splice($index, 1);updateApiCall()">
+                <i class="icon-trash"></i>
+            </button>
+        </div>
+    <li>
+
+    <li>
+        <button class="btn"
+                type="button"
+                ng-click="addFilterField(param.parse)">
+            <i class="icon-plus">Add</i>
+        </button>
+    </li>
+
+</ul>
